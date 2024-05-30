@@ -9,7 +9,7 @@ import {
 interface CustomTableProps<T extends MRT_RowData> {
   data: T[];
   columns: MRT_ColumnDef<T>[];
-  columPinning?: string[];
+  columnPinning?: string[];
 }
 /**
  * READ advance example here
@@ -18,7 +18,7 @@ interface CustomTableProps<T extends MRT_RowData> {
 const CustomTable = <T extends MRT_RowData>({
   data,
   columns,
-  columPinning,
+  columnPinning,
 }: CustomTableProps<T>) => {
   const table = useMaterialReactTable<T>({
     data,
@@ -29,7 +29,7 @@ const CustomTable = <T extends MRT_RowData>({
     rowNumberDisplayMode: "original",
     enableColumnPinning: true,
     initialState: {
-      columnPinning: { left: ["mrt-row-actions", "state"] },
+      columnPinning: { left: columnPinning },
     },
   });
 

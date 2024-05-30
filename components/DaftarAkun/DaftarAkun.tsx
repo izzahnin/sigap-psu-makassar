@@ -4,8 +4,12 @@ import { MRT_ColumnDef } from "material-react-table";
 import { useMemo, useState } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
 import { Button, Paper, Typography, TextField } from "@mui/material";
+import CustomButton from "@/components/Buttons/CustomButton";
+import TitleTable from "@/components/TitleTable/TitleTable";
 
 export default function DaftarAkun() {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   const MOCK_DATA = [
     {
       id: 1,
@@ -52,16 +56,8 @@ export default function DaftarAkun() {
 
   return (
     <Paper>
-      <Typography
-        variant="h5"
-        sx={{
-          marginBottom: 2,
-          fontWeight: "bold",
-          paddingLeft: 2,
-        }}
-      >
-        Daftar Akun
-      </Typography>
+      <TitleTable title="Daftar Dokumen " />
+      <CustomButton onClick={() => setIsOpenModal(true)} />
       <form action="" className="flex flex-col">
         <section className="flex flex-col gap-2 p-4 sm:flex-row">
           <TextField id="outlined-basic" label="Username" variant="outlined" />

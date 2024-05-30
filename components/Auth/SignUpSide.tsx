@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { Stack } from "@mui/material";
+import signUp from "@/app/firebase/user/signUp";
 
 function Copyright(props: any) {
   return (
@@ -34,30 +35,37 @@ function Copyright(props: any) {
 
 export default function SignUpSide() {
   const router = useRouter();
+  // const auth = useAuth();
+  const [residenceName, setResidenceName] = useState("");
+  const [username, setUsername] = useState("");
+  const [idCard, setIdCard] = useState<File | null>(null);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // router.push('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+      residenceName: data.get("residenceName"),
+      username: data.get("username"),
     });
+
+    try {
+      if (residenceName && username && idCard) {
+        await signUp({ residenceName, username, idCard });
+        // Redirect or show success message after successful signup
+        router.push("/");
+      } else {
+        // Handle form validation errors
+        console.error("Please fill in all the required fields.");
+      }
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   };
 
-  const [files, setFiles] = React.useState<File[]>([]);
-  const [inputErrors, setInputErrors] = useState<Record<string, string>>({});
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
-    setInputErrors((prevErrors) => ({
-      ...prevErrors,
-      image: "",
-    }));
-
-    // setFormData((prevData) => ({
-    //   ...prevData,
-    //   image: file || "",
-    // }));
+    setIdCard(file);
   };
 
   return (
@@ -111,6 +119,8 @@ export default function SignUpSide() {
                 label="Nama Perumahan"
                 name="nama_perumahan"
                 autoComplete="nama perumahan"
+                value={residenceName}
+                onChange={(e) => setResidenceName(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -130,8 +140,8 @@ export default function SignUpSide() {
                   type="file"
                   id="file"
                   name="file"
-                  accept="file/*"
-                  onChange={(e) => handleChange(e)}
+                  accept="image/*"
+                  onChange={handleChange}
                 />
                 <Typography variant="caption">
                   *Foto KTP hanya digunakan untuk verifikasi akun pengembang

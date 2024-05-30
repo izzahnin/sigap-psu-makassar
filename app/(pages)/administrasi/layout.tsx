@@ -1,6 +1,8 @@
 "use client";
 import "@/app/globals.css";
-import PersistentDrawerLeft from "@/components/Drawer/drawer";
+import ResponsiveDrawer from "@/components/Drawer/drawer2";
+// import PersistentDrawerLeft from "@/components/Drawer/drawer";
+// import ResponsiveDrawer from "@/components/Drawer/drawer;
 import { AppBar, Drawer } from "@mui/material";
 
 // import { AuthUserProvider, useAuth } from "@/firebase/auth/AuthUserProvider";
@@ -19,7 +21,10 @@ export default function UserLayout({
   return (
     // <AuthUserProvider>
     <section>
-      <PersistentDrawerLeft role="user">{children}</PersistentDrawerLeft>
+      <ResponsiveDrawer role="user">
+        {children}
+      </ResponsiveDrawer>
+
     </section>
     // {/* </AuthUserProvider> */}
   );

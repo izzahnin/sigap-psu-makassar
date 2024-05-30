@@ -1,7 +1,7 @@
-import React from 'react'
+import ItemDokumenUser from "@/components/ItemsPengembang/ItemDokumenUser";
+import React from "react";
+import PengajuanDokumen from "@/components/PengajuanDokumen/PengajuanDokumen";
 
 export default function Administrasi() {
-  return (
-    <div>Administrasi</div>
-  )
+  return <PengajuanDokumen />;
 }

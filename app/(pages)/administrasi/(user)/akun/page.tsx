@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function PengajuanDokumen() {
+export default function Akun() {
   return (
     <div>
       <h1>Pengajuan Dokumen</h1>

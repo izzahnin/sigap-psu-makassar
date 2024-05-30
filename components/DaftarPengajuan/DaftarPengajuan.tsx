@@ -1,11 +1,15 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import { useMemo, useState } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
 import { Button, Paper, Typography, TextField } from "@mui/material";
+import getUserSignUpList from "@/app/firebase/admin/getUserSignUpList";
+import TitleTable from "@/components/TitleTable/TitleTable";
 
 export default function DaftarPengajuan() {
+  const [userSignUpList, setUserSignUpListp] = useState([]);
+
   const MOCK_DATA = [
     {
       id: 1,
@@ -49,19 +53,22 @@ export default function DaftarPengajuan() {
     [],
   );
 
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const data = await getUserSignUpList();
+  //       setUserSignUpList(data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
+
   return (
     <Paper>
-      <Typography
-        variant="h5"
-        sx={{
-          marginBottom: 2,
-          fontWeight: "bold",
-          paddingLeft: 2,
-        }}
-      >
-        Daftar Pengajuan
-      </Typography>
-      <CustomTable data={MOCK_DATA} columns={MOCK_COLUMNS} />
+      <TitleTable title="Daftar Pengajuan " />
+      <CustomTable data={userSignUpList} columns={MOCK_COLUMNS} columnPinning={["mrt-row-numbers"]}/>
     </Paper>
   );
 }
