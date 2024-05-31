@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function DokumenDetailPage() {
   return (
-    <DokumenDetail params={{
+    <DokumenDetail userType='citizen'  params={{
       id: '',
       slug: ''
     }} />

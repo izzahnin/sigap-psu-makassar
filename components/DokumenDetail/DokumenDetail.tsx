@@ -14,32 +14,16 @@ import { Document, Page } from "react-pdf";
 import TitleTable from "@/components/TitleTable/TitleTable";
 import ItemDetail from "@/components/ItemsPengembang/ItemDetail";
 import ItemDokumen from "@/components/ItemsPengembang/ItemDokumen";
+import ItemDokumenCitizen from "../ItemsWarga/ItemDokumen";
 
 export default function DokumenDetail({
   params,
+  userType,
 }: {
   params: { id: string; slug: string };
+  userType: string;
 }) {
   const { id } = params;
-
-  const dokumenName = [
-    "Surat Permohonan",
-    "KTP Direktur/Direktris",
-    "NPWP Perusahaan",
-    "Akta Pendirian",
-    "Surat Pernyataan kebenaran dokumen",
-    "Surat Peryataan pengembangan Untuk Menyerahkan PSU (Pelepasan Hak)",
-    "Site Plan awal/induk",
-    "Site Plan perubahan (bila ada)",
-    "Peta Jaringan/Site plan diarsir beserta luasannya PSU Rencana Penyerahan",
-    "Izin Lokasi dari BPN Kota Makassar",
-    "Akte Jual Beli dan Surat Kepemilikan Lahan (HGB Induk)",
-    "Rekomendai TPU/Sertifikat Kepemilikan lahan TPU",
-    "Rekomendasi Peruntukan lahan/Lokasi Pembangunan Perumahan",
-    "Sertifikat PSU / Pemecahan / Pelepasan Hak",
-    "Bukti pembayaran uang kompensasi lahan kuburan/pemakaman",
-    "Jenis / Rincian / Volume dan luasan PSU Rencana Penyerahan",
-  ];
 
   return (
     <>
@@ -80,7 +64,11 @@ export default function DokumenDetail({
               Kelengkapan Dokumen
             </Typography>
 
-            <ItemDokumen />
+            {userType === "developer" ? (
+              <ItemDokumen />
+            ) : (
+              <ItemDokumenCitizen />
+            )}
           </section>
         </Box>
       </Paper>

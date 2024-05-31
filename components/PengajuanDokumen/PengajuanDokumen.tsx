@@ -1,13 +1,19 @@
-import React from 'react'
-import ItemDokumenUser from '@/components/ItemsPengembang/ItemDokumenUser'
-import { Paper } from '@mui/material'
-import TitleTable from '@/components/TitleTable/TitleTable'
+import React from 'react';
+import ItemDokumenUser from '@/components/ItemsPengembang/ItemDokumenUser';
+import ItemDokumenUserCitizen from '../ItemsWarga/ItemDokumenUser';
+import { Paper } from '@mui/material';
+import TitleTable from '@/components/TitleTable/TitleTable';
 
-export default function PengajuanDokumen() {
+interface PengajuanDokumenProps {
+  userType: string;
+}
+
+export default function PengajuanDokumen(props: PengajuanDokumenProps) {
+  const { userType } = props;
   return (
     <Paper>
-    <TitleTable title="Form Pengajuan Penyerahan PSU" />
-    <ItemDokumenUser  />
-  </Paper>
-  )
+      <TitleTable title="Form Pengajuan Penyerahan PSU" />
+      {userType === 'developer' ? <ItemDokumenUser /> : <ItemDokumenUserCitizen />}
+    </Paper>
+  );
 }

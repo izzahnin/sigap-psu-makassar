@@ -23,38 +23,20 @@ function createData(title: string, file: string, required: boolean = false) {
 
 const rows = [
   createData("Nama Perumahan", ""),
-  createData("Nama Pengembang", ""),
+  createData("Nama Warga", ""),
   createData("Alamat/Telepon", ""),
   createData("Lokasi", ""),
   createData("Kelurahan", ""),
   createData("Kecamatan", ""),
   createData("Luasan PSU Rencana Penyerahan", ""),
   createData("Surat Permohonan", ""),
-  createData("KTP Direktur/Direktris", ""),
-  createData("NPWP Perusahaan", ""),
-  createData("Akta Pendirian", ""),
-  createData("Surat Pernyataan kebenaran dokumen", ""),
-  createData(
-    "Surat Peryataan pengembangan Untuk Menyerahkan PSU (Pelepasan Hak)",
-    "",
-    true,
-  ),
-  createData("Site Plan awal/induk", ""),
-  createData("Site Plan perubahan (bila ada)", ""),
-  createData(
-    "Peta Jaringan/Site plan diarsir beserta luasannya PSU Rencana Penyerahan",
-    "",
-    true,
-  ),
-  createData("Izin Lokasi dari BPN Kota Makassar", ""),
-  createData("Akte Jual Beli dan Surat Kepemilikan Lahan (HGB Induk)", ""),
-  createData("Rekomendai TPU/Sertifikat Kepemilikan lahan TPU", ""),
-  createData("Rekomendasi Peruntukan lahan/Lokasi Pembangunan Perumahan", ""),
-  createData("Sertifikat PSU / Pemecahan / Pelepasan Hak", ""),
-  createData("Bukti pembayaran uang kompensasi lahan kuburan/pemakaman", ""),
+  createData("KTP Warga", ""),
+  createData("Surat Keterangan Tanggung Jawab Informasi", ""),
+  createData("Berita Acara", ""),
+  createData("Surat Pernyataan", ""),
 ];
 
-export default function ItemDokumenUser() {
+export default function ItemDokumenUserCitizen() {
   const [submitted, setSubmitted] = React.useState(false);
   const [disabledInputs, setDisabledInputs] = React.useState(false);
   const [fileNames, setFileNames] = React.useState(Array(rows.length).fill(""));
@@ -81,9 +63,8 @@ export default function ItemDokumenUser() {
       (row) =>
         row.required &&
         ((row.file && !fileNames[row.title as keyof typeof fileNames]) ||
-          (!row.file && !row.title))
+          (!row.file && !row.title)),
     );
-    
 
     if (missingItems.length > 0) {
       // Display error message

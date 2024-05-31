@@ -1,10 +1,6 @@
-import React from 'react'
+import AkunPengguna from "@/components/AkunPengguna/AkunPengguna";
+import React from "react";
 
 export default function Akun() {
-  return (
-    <div>
-      <h1>Pengajuan Dokumen</h1>
-      <p>list input dokumen disini</p>
-    </div>
-  )
+  return <AkunPengguna />;
 }

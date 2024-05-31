@@ -1,37 +1,39 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
+"use client";
+import React, { useState } from "react";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Stack,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import {
   AccountCircle,
   Article,
   Drafts,
+  Logout,
   ManageAccounts,
-  Menu,
 } from "@mui/icons-material";
-import { Stack, MenuItem, Icon } from "@mui/material";
-import router from "next/router";
 
 const drawerWidth = 240;
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
   window?: () => Window;
   children: React.ReactNode;
   role: string;
@@ -39,17 +41,15 @@ interface Props {
 
 export default function ResponsiveDrawer(props: Props) {
   const { window, children, role } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isClosing, setIsClosing] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+  const router = useRouter();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
-  };
-
-  const handleDrawerTransitionEnd = () => {
-    setIsClosing(false);
   };
 
   const handleDrawerToggle = () => {
@@ -58,14 +58,26 @@ export default function ResponsiveDrawer(props: Props) {
     }
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    setAnchorEl(null);
+    setOpenLogoutDialog(true);
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogoutConfirm = () => {
+    // Handle logout logic here
+    router.push("/"); // For example, redirecting to logout page
+  };
+
+  const handleLogoutCancel = () => {
+    setOpenLogoutDialog(false);
   };
 
   const appPages = getAppPagesForRole(role);
@@ -93,10 +105,6 @@ export default function ResponsiveDrawer(props: Props) {
             title: "Pengajuan Dokumen",
             href: "/administrasi",
           },
-          {
-            title: "Akun Saya",
-            href: "/administrasi/akun",
-          },
         ];
       default:
         return [];
@@ -112,17 +120,25 @@ export default function ResponsiveDrawer(props: Props) {
           <ListItem key={appPage.title} disablePadding>
             <ListItemButton href={appPage.href}>
               <ListItemIcon>
-                {index - 2 % 2 !== 0 ? <ManageAccounts /> : <Article />}
+                {index - (2 % 2) !== 0 ? <ManageAccounts /> : <Article/>}
               </ListItemIcon>
               <ListItemText primary={appPage.title} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={handleLogout}>
+          <ListItemIcon>
+            <Logout />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
     </div>
   );
 
-  // Remove this const when copying and pasting into your project.
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -132,11 +148,6 @@ export default function ResponsiveDrawer(props: Props) {
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        // sx={{
-        //   width: { sm: `calc(100% - ${drawerWidth}px)` },
-        //   ml: { sm: `${drawerWidth}px` },
-
-        // }}
       >
         <Toolbar
           sx={{
@@ -173,7 +184,7 @@ export default function ResponsiveDrawer(props: Props) {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              // onClick={handleMenu}
+              onClick={handleMenu}
               color="inherit"
             >
               <AccountCircle />
@@ -189,15 +200,14 @@ export default function ResponsiveDrawer(props: Props) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
           open={mobileOpen}
-          onTransitionEnd={handleDrawerTransitionEnd}
+          onTransitionEnd={handleDrawerClose}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -234,6 +244,29 @@ export default function ResponsiveDrawer(props: Props) {
         <Toolbar />
         {children}
       </Box>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog
+        open={openLogoutDialog}
+        onClose={handleLogoutCancel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Logout Confirmation</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" component="div">
+            Are you sure you want to logout?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleLogoutCancel} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleLogoutConfirm} color="primary" autoFocus>
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
