@@ -28,22 +28,29 @@ export default function LandingPage() {
                 variant="h4"
                 component="h1"
                 gutterBottom
-                sx={{ color: "white", fontWeight: "bold", fontSize: "32px"}}
+                sx={{ color: "white", fontWeight: "bold", fontSize: "32px" }}
               >
                 DINAS PERUMAHAN DAN KAWASAN PERMUKIMAN KOTA MAKASSAR
               </Typography>
             </section>
             <section className="flex flex-col items-center justify-center gap-6 text-white md:flex-row ">
-              <div className="flex h-20 w-full  items-center justify-center rounded-md bg-white bg-opacity-30 font-bold transition-all hover:scale-105 hover:bg-opacity-70 hover:text-black md:w-1/3 ">
-                <Link href="/login">Pengajuan Dokumen</Link>
-              </div>
-              <div className="flex h-20 w-full  items-center justify-center rounded-md bg-white bg-opacity-30 font-bold  transition-all hover:scale-105 hover:bg-opacity-70 hover:text-black md:w-1/3 ">
-                <Link href="/informasi">Portal Informasi</Link>
-              </div>
-              <div className="flex h-20 w-full  items-center justify-center rounded-md bg-white bg-opacity-30  font-bold transition-all hover:scale-105 hover:bg-opacity-70 hover:text-black md:w-1/3 ">
-                <Link href="/#">Peta GIS</Link>
-              </div>
+              <Link href="/login" className="w-full md:w-1/3">
+                <div className="flex h-20 w-full items-center justify-center rounded-md bg-white bg-opacity-30 font-bold transition-all hover:scale-105 hover:bg-opacity-70 hover:text-black">
+                  Pengajuan Dokumen
+                </div>
+              </Link>
+              <Link href="/informasi" className="w-full md:w-1/3">
+                <div className="flex h-20 w-full items-center justify-center rounded-md bg-white bg-opacity-30 font-bold transition-all hover:scale-105 hover:bg-opacity-70 hover:text-black">
+                  Portal Informasi
+                </div>
+              </Link>
+              <Link href="/#" className="w-full md:w-1/3">
+                <div className="flex h-20 w-full items-center justify-center rounded-md bg-white bg-opacity-30 font-bold transition-all hover:scale-105 hover:bg-opacity-70 hover:text-black">
+                  Peta GIS
+                </div>
+              </Link>
             </section>
+
           </div>
         </div>
       </Box>
