@@ -1,4 +1,4 @@
-import DokumenDetail from '@/components/DokumenDetail/DokumenDetail'
+import DokumenDetail from '@/app/view/DokumenDetail/DokumenDetail'
 import React from 'react'
 
 export default function DokumenDetailPage() {

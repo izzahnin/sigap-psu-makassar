@@ -1,6 +1,6 @@
 import Link from "next/link";
 // import Navbar from "@components/Navbar";
-import "@/app/globals.css";
+import "@/app/styles/globals.css";
 
 export default function NotFound() {
   return (

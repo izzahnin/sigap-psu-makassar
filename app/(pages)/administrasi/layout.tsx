@@ -1,5 +1,5 @@
 "use client";
-import "@/app/globals.css";
+import "@/app/styles/globals.css";
 import ResponsiveDrawer from "@/components/Drawer/drawer2";
 import { AppBar, Drawer } from "@mui/material";
 
