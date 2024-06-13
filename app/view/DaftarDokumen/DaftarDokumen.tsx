@@ -4,7 +4,7 @@ import { MRT_ColumnDef } from "material-react-table";
 import { useMemo, useState } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
 import { Button, Paper, Typography } from "@mui/material";
-import TitleTable from "@/components/TitleTable/TitleTable";
+import TitleTable from "../../components/TitleTable/TitleTable";
 
 export default function DaftarDokumen() {
   const MOCK_DATA = [
