@@ -1,6 +1,6 @@
 import React from "react";
 import ItemDokumenUser from "@/components/ItemsPengembang/ItemDokumenUser";
-import ItemDokumenUserCitizen from "../../components/ItemsWarga/ItemDokumenUser";
+import ItemDokumenUserCitizen from "@/components/ItemsWarga/ItemDokumenUser";
 import { Paper } from "@mui/material";
 import TitleTable from "@/components/TitleTable/TitleTable";
 
