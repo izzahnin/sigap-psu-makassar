@@ -1,6 +1,8 @@
-import DaftarDokumen from "@/app/view/DaftarDokumen/DaftarDokumen";
-import React from "react";
+import DaftarDokumen from '@/components/DaftarDokumen/DaftarDokumen'
+import React from 'react'
 
 export default function PenyerahanDokumenPage() {
-  return <DaftarDokumen />;
+  return (
+    <DaftarDokumen />
+  )
 }

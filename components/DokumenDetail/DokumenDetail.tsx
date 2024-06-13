@@ -14,7 +14,7 @@ import { Document, Page } from "react-pdf";
 import TitleTable from "@/components/TitleTable/TitleTable";
 import ItemDetail from "@/components/ItemsPengembang/ItemDetail";
 import ItemDokumen from "@/components/ItemsPengembang/ItemDokumen";
-import ItemDokumenCitizen from "../../components/ItemsWarga/ItemDokumen";
+import ItemDokumenCitizen from "../ItemsWarga/ItemDokumen";
 
 export default function DokumenDetail({
   params,

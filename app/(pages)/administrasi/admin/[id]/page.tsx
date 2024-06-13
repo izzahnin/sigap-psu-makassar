@@ -1,14 +1,11 @@
-import DokumenDetail from "@/app/view/DokumenDetail/DokumenDetail";
-import React from "react";
+import DokumenDetail from '@/components/DokumenDetail/DokumenDetail'
+import React from 'react'
 
 export default function DokumenDetailPage() {
   return (
-    <DokumenDetail
-      userType="citizen"
-      params={{
-        id: "",
-        slug: "",
-      }}
-    />
-  );
+    <DokumenDetail userType='citizen'  params={{
+      id: '',
+      slug: ''
+    }} />
+  )
 }
