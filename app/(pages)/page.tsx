@@ -1,6 +1,6 @@
-import  LandingPage  from "@/components/Landingpage/Landingpage";
+import LandingPage from "@/components/Landingpage/Landingpage";
 import "@/app/globals.css";
 
-export default function landingpage() {
+export default function DashboardPage() {
   return <LandingPage />;
 }

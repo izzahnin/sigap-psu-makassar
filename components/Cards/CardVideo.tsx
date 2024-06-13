@@ -12,13 +12,14 @@ interface CardVideoProps {
 
 export default function CardVideo(props: CardVideoProps) {
   const { source } = props;
+  const videoId = `https://www.youtube.com/embed/${source}`
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="iframe"
         height="400"
-        src={source}
+        src={videoId}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       />

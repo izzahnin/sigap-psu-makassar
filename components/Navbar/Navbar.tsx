@@ -49,7 +49,6 @@ function Navbar() {
             variant="h6"
             noWrap
             component="a"
-            href="beranda"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -117,7 +116,6 @@ function Navbar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 4,
               display: { xs: "flex", md: "none" },

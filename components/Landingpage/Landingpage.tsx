@@ -65,7 +65,7 @@ export default function LandingPage() {
             title="DATA GEO SPASIAL PSU PERUMAHAN"
             description="Data Prasarana Sarana dan Utilitas (PSU) Perumahan yang telah diserahkan ke Pemerintah Kota disajikan dalam webgis"
             image="/images/gis.jpg"
-             href="#GISComingSoon"
+            href="#GISComingSoon"
           />
           <CardDashboard
             title="PERNYERAHAN PSU OLEH PENGEMBANG"
@@ -77,7 +77,7 @@ export default function LandingPage() {
             title="PENYERAHAN PSU PERUMAHAN OLEH WARGA"
             description="Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan yang Pengembang (Developer) nya Sudah Tidak Beraktivitas sebagai Badan Usaha, sehingga Penyerahannya dimohonkan oleh Warga Perumahan"
             image="/images/qr-warga.jpeg"
-             href="/login"
+            href="/login"
           />
         </section>
       </Box>
@@ -157,8 +157,8 @@ export default function LandingPage() {
           <div className="text-md h-2 w-32 bg-[#edcd1f]"></div>
         </div>
         <section className="flex gap-6">
-          <CardVideo source="https://youtu.be/juMRBpfU86c?si=kFOC0AdHiYr1L6bB" />
-          <CardVideo source="https://youtu.be/lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" />
+          <CardVideo source="juMRBpfU86c?si=kFOC0AdHiYr1L6bB" />
+          <CardVideo source="lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" />
         </section>
       </Box>
       <Box
@@ -218,11 +218,9 @@ export default function LandingPage() {
         </div>
         <section className="flex gap-6">
           <iframe
-            src="https://maps.app.goo.gl/Funcn5nC7yUGL8iD8"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d496.68437593390195!2d119.44118282082202!3d-5.18775523616285!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbee25d5559ca0b%3A0x1e5bccc0524e14d1!2sDinas%20Perumahan%20Kota%20Makassar!5e0!3m2!1sen!2sid!4v1718277548130!5m2!1sen!2sid"
             width="600"
             height="450"
-            style={{ border: 0 }}
-            allowFullScreen
             loading="lazy"
           ></iframe>
           <div className="flex flex-col items-start gap-2">
