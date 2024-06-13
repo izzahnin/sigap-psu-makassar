@@ -7,7 +7,8 @@ import Navbar from "@/components/Navbar/Navbar";
 import ButtonDashboard from "../Buttons/ButtonDashboard";
 import CardDashboard from "@/components/Cards/CardDashboard";
 import CardJumlah from "@/components/Cards/CardJumlah";
-import CardVideo from "../Cards/CardVideo";
+import CardVideo from "@/components/Cards/CardVideo";
+import CardDukungan from "@/components/Cards/CardDukungan";
 
 export default function LandingPage() {
   return (
@@ -17,7 +18,6 @@ export default function LandingPage() {
       sx={{ display: "flex", flexDirection: "column" }}
     >
       <Box
-        // className="flex h-full w-screen flex-col items-center justify-center bg-orange-400"
         sx={{
           background:
             "url(https://storage.googleapis.com/seo-cms/assets/foto_kota_makassar_320f376cf0/foto_kota_makassar_320f376cf0.webp)",
@@ -28,53 +28,15 @@ export default function LandingPage() {
         id="Beranda"
       >
         <Navbar />
-        <div className="mt-3 flex h-dvh w-screen justify-center">
-          <div className="flex w-full flex-col items-center md:w-4/5">
-            {/* <section className="flex items-center  gap-4">
-              <Image
-                src="/images/logo.png"
-                alt="landingpage"
-                width={70}
-                height={70}
-                className="h-auto w-auto"
-              />
-              <Typography
-                variant="h4"
-                component="h1"
-                gutterBottom
-                sx={{ color: "white", fontWeight: "bold", fontSize: "32px" }}
-              >
-                DINAS PERUMAHAN DAN KAWASAN PERMUKIMAN KOTA MAKASSAR
-              </Typography>
-            </section> */}
-            {/* <section className="flex w-3/4 items-center justify-center">
-              <Image
-                src="/images/sigap.jpg"
-                alt="landingpage"
-                width={140}
-                height={140}
-                className="h-auto w-auto rounded-md"
-              />
-              <Typography
-                variant="h5"
-                component="h2"
-                gutterBottom
-                sx={{
-                  color: "#FEF03E",
-                  fontWeight: "bold",
-                  fontSize: "24px",
-                  textTransform: "uppercase",
-                }}
-              >
-                sistem informasi geospasial prasarana, sarana dan utilitas
-                perumahan kota makassar
-              </Typography>
-            </section> */}
-            <section className=" mt-14 flex flex-col gap-14  text-center text-6xl font-bold uppercase tracking-wider text-white">
-              <h1>
+        <div className="mt-3 flex h-dvh w-screen justify-center bg-[#1e2d3b] bg-opacity-60">
+          <div className="flex w-full flex-col items-center md:w-4/5 ">
+            <section className=" mt-14 flex flex-col gap-14  text-center  font-bold uppercase tracking-wider text-white">
+              <h1 className="text-6xl">
                 layanan penyerahan <br></br> psu perumahan
               </h1>
-              <h1>sistem informasi geospasial psu perumahan</h1>
+              <h1 className="text-5xl">
+                sistem informasi geospasial psu perumahan
+              </h1>
             </section>
           </div>
         </div>
@@ -103,16 +65,19 @@ export default function LandingPage() {
             title="DATA GEO SPASIAL PSU PERUMAHAN"
             description="Data Prasarana Sarana dan Utilitas (PSU) Perumahan yang telah diserahkan ke Pemerintah Kota disajikan dalam webgis"
             image="/images/gis.jpg"
+             href="#GISComingSoon"
           />
           <CardDashboard
             title="PERNYERAHAN PSU OLEH PENGEMBANG"
             description="Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan yang Pengembang (Developer) nya masih Beraktivitas sebagai badan usaha. Pengembang wajib melakukan penyerahan PSU ke pemerintah."
             image="/images/qr-developer.jpeg"
+            href="/login"
           />
           <CardDashboard
             title="PENYERAHAN PSU PERUMAHAN OLEH WARGA"
             description="Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan yang Pengembang (Developer) nya Sudah Tidak Beraktivitas sebagai Badan Usaha, sehingga Penyerahannya dimohonkan oleh Warga Perumahan"
             image="/images/qr-warga.jpeg"
+             href="/login"
           />
         </section>
       </Box>
@@ -175,15 +140,16 @@ export default function LandingPage() {
         </section>
       </Box>
       <Box
+        id="Dokumentasi"
         sx={{
-          background: "white",
+          background: "#f7f7f7",
           padding: "2rem",
           color: "#333333",
           width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          mt: "50px",
+          py: "50px",
         }}
       >
         <div className="m-12 flex flex-col items-center gap-2 text-center text-5xl font-semibold tracking-wider ">
@@ -195,27 +161,79 @@ export default function LandingPage() {
           <CardVideo source="https://youtu.be/lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" />
         </section>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          background: "white",
+          // padding: "6rem",
+          color: "#333333",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          pt: "50px",
+          gap: "4rem",
+          py: "50px",
+        }}
+      >
+        <div className="flex flex-col items-center gap-2 text-center text-2xl font-semibold tracking-wider ">
+          <h1>DIDUKUNG DAN DISUPERVISI</h1>
+          <div className="text-md h-2 w-32 bg-[#edcd1f]"></div>
+        </div>
+        <section className="flex items-center justify-center gap-14 align-middle">
+          <CardDukungan src="/images/kpk.jpg" alt="kejaksaan" width={120} />
+          <CardDukungan
+            src="/images/KEJAKSAAN.jpg"
+            alt="kejaksaan"
+            width={120}
+          />
+          <CardDukungan
+            src="/images/pertahanan.jpg"
+            alt="pertahanan"
+            width={100}
+          />
+          <CardDukungan src="/images/REI.jpg" alt="rei" width={90} />
+          <CardDukungan
+            src="/images/kotakita.jpg"
+            alt="kota kita"
+            width={120}
+          />
+        </section>
+      </Box>
+      <Box
+        id="Kontak"
+        sx={{
+          background: "#f7f7f7",
+          padding: "2rem",
+          color: "#333333",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          py: "50px",
+        }}
+      >
         <div className="m-12 flex flex-col items-center gap-2 text-center text-5xl font-semibold tracking-wider ">
-          <h1>Dokumentasi & Edukasi</h1>
+          <h1>Kontak Kami</h1>
           <div className="text-md h-2 w-32 bg-[#edcd1f]"></div>
         </div>
         <section className="flex gap-6">
-          <Image src="/images/kpk.jpg" alt="kpk" width={90} height={120} />
-          <Image
-            src="/images/KEJAKSAAN.jpg"
-            alt="kejaksaan"
-            width={90}
-            height={120}
-          />
-          <Image
-            src="/images/pertahanan.jpg"
-            alt="pertahanan"
-            width={90}
-            height={120}
-          />
-          <Image src="/images/REI.jpg" alt="kpk" width={90} height={120} />
-          <Image src="/images/kpk.jpg" alt="kpk" width={90} height={120} />
+          <iframe
+            src="https://maps.app.goo.gl/Funcn5nC7yUGL8iD8"
+            width="600"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+          <div className="flex flex-col items-start gap-2">
+            <Typography variant="h5">Alamat:</Typography>
+            <Typography>Jl Sultan Alauddin No 309</Typography>
+            <Typography>Makassar, Sulsel, Indonesia</Typography>
+            <Typography variant="h5">Email:</Typography>
+            <Typography>info@sigappsumakassar.com</Typography>
+            <Typography variant="h5">Phone:</Typography>
+            <Typography>+123-456-7890</Typography>
+          </div>
         </section>
       </Box>
     </Grid>

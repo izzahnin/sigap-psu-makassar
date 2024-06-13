@@ -42,14 +42,14 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" sx={{ backgroundColor: "#1e2d3b" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="beranda"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -57,7 +57,7 @@ function Navbar() {
               fontFamily: "Poppins, sans-serif",
               fontWeight: 700,
               lineHeight: 1,
-              color: "inherit",
+              color: "#edcd1f",
               textDecoration: "none",
             }}
           >
@@ -144,7 +144,7 @@ function Navbar() {
                   my: 2,
                   color: "white",
                   display: "block",
-                  hover: { color: "yellow" },
+                  "&:hover": { color: "#edcd1f" },
                 }}
               >
                 {page}
