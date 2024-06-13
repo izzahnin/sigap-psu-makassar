@@ -1,4 +1,4 @@
-import DaftarPengajuan from '@/components/DaftarPengajuan/DaftarPengajuan'
+import DaftarPengajuan from '@/app/view/DaftarPengajuan/DaftarPengajuan'
 import React from 'react'
 
 export default function DaftarPengajuanPage() {

@@ -1,14 +1,12 @@
 import React from "react";
-import Image from "next/image";
-import { Box, Card, Grid, Stack, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box, Grid, Typography } from "@mui/material";
 import "@/app/globals.css";
 import Navbar from "@/components/Navbar/Navbar";
-import ButtonDashboard from "../Buttons/ButtonDashboard";
-import CardDashboard from "@/components/Cards/CardDashboard";
-import CardJumlah from "@/components/Cards/CardJumlah";
-import CardVideo from "@/components/Cards/CardVideo";
-import CardDukungan from "@/components/Cards/CardDukungan";
+import CardDashboard from "@/components/Cards/CardDashboard/CardDashboard";
+import CardDukungan from "@/components/Cards/CardDukungan/CardDukungan";
+import CardJumlah from "@/components/Cards/CardJumlah/CardJumlah";
+import CardVideo from "@/components/Cards/CardVideo/CardVideo";
+
 
 export default function LandingPage() {
   return (

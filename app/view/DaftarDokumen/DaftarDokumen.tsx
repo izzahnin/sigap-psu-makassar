@@ -4,7 +4,7 @@ import { MRT_ColumnDef } from "material-react-table";
 import { useMemo, useState } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
 import { Button, Paper, Typography } from "@mui/material";
-import TitleTable from "../TitleTable/TitleTable";
+import TitleTable from "../../components/TitleTable/TitleTable";
 
 export default function DaftarDokumen() {
   const MOCK_DATA = [
@@ -95,7 +95,11 @@ export default function DaftarDokumen() {
   return (
     <Paper>
       <TitleTable title="Daftar Dokumen " />
-      <CustomTable data={MOCK_DATA} columns={MOCK_COLUMNS} columnPinning={["mrt-row-numbers"]}/>
+      <CustomTable
+        data={MOCK_DATA}
+        columns={MOCK_COLUMNS}
+        columnPinning={["mrt-row-numbers"]}
+      />
     </Paper>
   );
 }
