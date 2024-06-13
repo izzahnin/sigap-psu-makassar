@@ -21,7 +21,7 @@ export default function UserLayout({
   return (
     // <AuthUserProvider>
     <section>
-      <ResponsiveDrawer role="admin">
+      <ResponsiveDrawer role="user">
         {children}
       </ResponsiveDrawer>
 

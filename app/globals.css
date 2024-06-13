@@ -7,4 +7,9 @@
 
 body {
   overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+.custom-height{
+  height: calc(100vh - 68.5px);
 }
