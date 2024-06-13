@@ -1,7 +1,10 @@
+"use strict";
+
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../config";
 import { collection, doc, getDocs, or, query, setDoc, where } from 'firebase/firestore';
 import { UserProps, jsonToUser } from "./user";
+import { verify } from "password-hash";
 
 interface LogInProps {
     username: string;
@@ -26,7 +29,8 @@ export default async function logIn(
 
     // compare hash password
     const bcrypt = require('bcrypt');
-    const samePassword = await bcrypt.compare(password, querySnapshot.docs[0].data()['password']);
+    // const samePassword = await bcrypt.compare(password, querySnapshot.docs[0].data()['password']);
+    const samePassword = verify(password, querySnapshot.docs[0].data()['password']);
     if (!samePassword) {
         throw new Error('Username dan/atau password salah');
     }

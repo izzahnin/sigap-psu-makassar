@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import logIn from "@/app/firebase/user/logIn";
 
 function Copyright(props: any) {
   return (
@@ -33,14 +34,20 @@ function Copyright(props: any) {
 export default function SignInSide() {
   const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // router.push('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    if (data.get("username") != null && data.get("password")) {
+      logIn({
+        username: data.get("username")!.toString(),
+        password: data.get("password")!.toString()
+      })
+    }
+    // console.log({
+    //   email: data.get("username"),
+    //   password: data.get("password"),
+    // });
   };
 
   return (
