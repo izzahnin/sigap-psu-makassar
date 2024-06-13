@@ -60,7 +60,7 @@ export default function SignInSide() {
         md={7}
         sx={{
           backgroundImage:
-            "url(https://images.unsplash.com/photo-1667664885297-8e180a9bc667?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+            "url(https://storage.googleapis.com/seo-cms/assets/foto_kota_makassar_320f376cf0/foto_kota_makassar_320f376cf0.webp)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -76,15 +76,23 @@ export default function SignInSide() {
             alignItems: "center",
           }}
         >
-          <Image
-            priority
-            draggable={false}
-            src="/images/sigap.jpg"
-            alt="landingpage"
-            width={160}
-            height={100}
-            className="m-4 h-auto w-[120px]"
-          />
+           <Typography
+            variant="h6"
+            noWrap
+            component="h1"
+            sx={{
+              mt: 4,
+              display: { xs: "none", md: "flex" },
+              flexDirection: "column",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 700,
+              lineHeight: 1,
+              fontSize: "2rem",
+              textDecoration: "none",
+            }}
+          >
+            Sigap PSU Makassar
+          </Typography>
           <Box sx={{ mb: 2 }}>
             <Box
               component="form"
@@ -122,11 +130,6 @@ export default function SignInSide() {
               </Button>
             </Box>
             <Grid container>
-              {/* <Grid item xs>
-                <Link href="signup" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
               <Grid item>
                 <Link href="signup" variant="body2">
                   {"Don't have an account? Sign Up"}
