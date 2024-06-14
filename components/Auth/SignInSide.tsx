@@ -10,7 +10,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import logIn from "@/app/firebase/user/logIn";
 
 function Copyright(props: any) {
@@ -35,19 +34,21 @@ export const SignInSide = () => {
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // router.push('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("username") != null && data.get("password")) {
-      logIn({
-        username: data.get("username")!.toString(),
-        password: data.get("password")!.toString(),
-      });
+    const username = data.get("username")?.toString();
+    const password = data.get("password")?.toString();
+
+    if (username && password) {
+      try {
+        await logIn({ username, password });
+        router.push("/");
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
+    } else {
+      console.error("Username and password must be provided");
     }
-    // console.log({
-    //   email: data.get("username"),
-    //   password: data.get("password"),
-    // });
   };
 
   return (
@@ -97,7 +98,7 @@ export const SignInSide = () => {
             <Box
               component="form"
               noValidate
-              onClick={handleSubmit}
+              onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <TextField
@@ -126,7 +127,7 @@ export const SignInSide = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                masuk
+                Masuk
               </Button>
             </Box>
             <Grid container>

@@ -1,32 +1,78 @@
 "use client";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
-import { useMemo, useState } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
-import { Button, Paper, Typography, TextField } from "@mui/material";
+import { Button, Paper, TextField } from "@mui/material";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
+import { db } from "@/app/firebase/config";
+import bcrypt from "bcryptjs";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 export const DaftarAkun = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [userAccounts, setUserAccounts] = useState<any[]>([]);
+  const [username, setUsername] = useState("");
+  const [nama, setNama] = useState("");
+  const [perumahan, setPerumahan] = useState("");
+  const [password, setPassword] = useState("");
 
-  const MOCK_DATA = [
-    {
-      id: 1,
-      username: "sakfjeljfasd",
-      perumahan: "Perumahan 1",
-      nama: "Budi",
-      password: "123456",
-    },
-    {
-      id: 2,
-      username: "sakfjeljfasd",
-      perumahan: "Perumahan 2",
-      nama: "Budi",
-      password: "123456",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const data = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setUserAccounts(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  const MOCK_COLUMNS: MRT_ColumnDef<any>[] = useMemo(
+  const handleAddAccount = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      // Hash the password before storing it
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newAccount = {
+        username,
+        nama,
+        perumahan,
+        password: hashedPassword,
+      };
+
+      const docRef = await addDoc(collection(db, "users"), newAccount);
+      setUserAccounts([...userAccounts, { ...newAccount, id: docRef.id }]);
+
+      // Reset form
+      setUsername("");
+      setNama("");
+      setPerumahan("");
+      setPassword("");
+    } catch (error) {
+      console.error("Error adding document:", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "users", id));
+      setUserAccounts((prevList) => prevList.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  };
+
+  const COLUMNS: MRT_ColumnDef<any>[] = useMemo(
     () => [
       {
         accessorKey: "username",
@@ -43,8 +89,14 @@ export const DaftarAkun = () => {
       {
         accessorKey: "action",
         header: "Tindakan",
-        Cell: ({ cell }) => (
-          <Button type="button" variant="contained" color="error" size="small">
+        Cell: ({ row }) => (
+          <Button
+            type="button"
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(row.original.id)}
+          >
             Hapus
           </Button>
         ),
@@ -54,18 +106,42 @@ export const DaftarAkun = () => {
   );
 
   return (
-    //* tambahkan input untuk menentukan apakah user yang dibuat adalah citizen atau developer
-     
     <Paper>
       <TitleTable title="Daftar Dokumen " />
-      <form action="" className="flex flex-col">
+      <form onSubmit={handleAddAccount} className="flex flex-col">
         <section className="flex flex-col gap-2 p-4 sm:flex-row">
-          <TextField id="outlined-basic" label="Username" variant="outlined" />
-          <TextField id="outlined-basic" label="Nama" variant="outlined" />
-          <TextField id="outlined-basic" label="Perumahan" variant="outlined" />
-          <TextField id="outlined-basic" label="Password" variant="outlined" />
+          <TextField
+            id="outlined-username"
+            label="Username"
+            variant="outlined"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            id="outlined-nama"
+            label="Nama"
+            variant="outlined"
+            value={nama}
+            onChange={(e) => setNama(e.target.value)}
+          />
+          <TextField
+            id="outlined-perumahan"
+            label="Perumahan"
+            variant="outlined"
+            value={perumahan}
+            onChange={(e) => setPerumahan(e.target.value)}
+          />
+          <TextField
+            id="outlined-password"
+            label="Password"
+            variant="outlined"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </section>
         <Button
+          type="submit"
           variant="contained"
           color="primary"
           sx={{ marginLeft: 2, marginBottom: 2, width: "fit-content" }}
@@ -73,7 +149,7 @@ export const DaftarAkun = () => {
           Tambah Akun
         </Button>
       </form>
-      <CustomTable data={MOCK_DATA} columns={MOCK_COLUMNS} />
+      <CustomTable data={userAccounts} columns={COLUMNS} />
     </Paper>
   );
 };
