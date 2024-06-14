@@ -9,11 +9,12 @@ import { db } from "@/app/firebase/config";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
 
 // Tentukan antarmuka untuk struktur data
-interface UserSignUp {
+export interface UserSignUp {
   id: string;
   username: string;
   residence_name: string;
   id_card: string;
+  file: string;
 }
 
 export const DaftarPengajuan = () => {
