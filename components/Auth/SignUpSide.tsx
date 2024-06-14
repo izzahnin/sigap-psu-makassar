@@ -35,13 +35,11 @@ function Copyright(props: any) {
 
 export const SignUpSide = () => {
   const router = useRouter();
-  // const auth = useAuth();
   const [residenceName, setResidenceName] = useState("");
   const [username, setUsername] = useState("");
   const [idCard, setIdCard] = useState<File | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // router.push('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -52,10 +50,8 @@ export const SignUpSide = () => {
     try {
       if (residenceName && username && idCard) {
         await signUp({ residenceName, username, idCard });
-        // Redirect or show success message after successful signup
         router.push("/");
       } else {
-        // Handle form validation errors
         console.error("Please fill in all the required fields.");
       }
     } catch (error) {
@@ -118,16 +114,16 @@ export const SignUpSide = () => {
             <Box
               component="form"
               noValidate
-              onClick={handleSubmit}
+              onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="nama_perumahan"
+                id="residenceName"
                 label="Nama Perumahan"
-                name="nama_perumahan"
+                name="residenceName"
                 autoComplete="nama perumahan"
                 value={residenceName}
                 onChange={(e) => setResidenceName(e.target.value)}
@@ -136,15 +132,17 @@ export const SignUpSide = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="notelp"
+                id="username"
                 label="Telepon (No WhatsApp)"
-                name="alamat"
+                name="username"
                 autoComplete="Telepon"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
 
               <Stack spacing={1}>
                 <Typography variant="body1">
-                  Masukkan Foto KTP Pengaju:
+                  Masukkan Foto KTP Pengembang:
                 </Typography>
                 <input
                   type="file"
@@ -154,7 +152,7 @@ export const SignUpSide = () => {
                   onChange={handleChange}
                 />
                 <Typography variant="caption">
-                  *Foto KTP hanya digunakan untuk verifikasi akun pengaju
+                  *Foto KTP hanya digunakan untuk verifikasi akun pengembang
                 </Typography>
                 <Typography variant="caption">
                   *Mohon menunggu balasan verifikasi 1-3 hari kerja via WhatsApp
@@ -166,7 +164,7 @@ export const SignUpSide = () => {
                 variant="contained"
                 sx={{ mt: 3, mb: 1 }}
               >
-                submit
+                Submit
               </Button>
             </Box>
 
@@ -183,4 +181,4 @@ export const SignUpSide = () => {
       </Grid>
     </Grid>
   );
-};
+}

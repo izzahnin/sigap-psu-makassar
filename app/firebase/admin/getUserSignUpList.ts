@@ -1,12 +1,17 @@
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../config";
-import { UserSignupProps, jsonToUserSignup } from "../user/user";
+import { getDownloadURL, ref } from "firebase/storage";
+import { db, storage } from "../config";
 
+const getUserSignUpList = async () => {
+  const querySnapshot = await getDocs(collection(db, "account_request"));
+  const userList = await Promise.all(
+    querySnapshot.docs.map(async (doc) => {
+      const data = doc.data();
+      const fileUrl = await getDownloadURL(ref(storage, data.id_card));
+      return { id: doc.id, ...data, file: fileUrl };
+    })
+  );
+  return userList;
+};
 
-export default async function getUserSignUpList(): Promise<Array<UserSignupProps>> {
-    const userCollection = collection(db, 'account_request');
-    const userSnapshot = await getDocs(userCollection);
-    const userSignUpList = userSnapshot.docs.map((doc) => jsonToUserSignup(doc.data()));
-
-    return userSignUpList;
-}
+export default getUserSignUpList;
