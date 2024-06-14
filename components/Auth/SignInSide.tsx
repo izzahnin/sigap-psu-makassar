@@ -31,7 +31,7 @@ function Copyright(props: any) {
   );
 }
 
-export default function SignInSide() {
+export const SignInSide = () => {
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,8 +41,8 @@ export default function SignInSide() {
     if (data.get("username") != null && data.get("password")) {
       logIn({
         username: data.get("username")!.toString(),
-        password: data.get("password")!.toString()
-      })
+        password: data.get("password")!.toString(),
+      });
     }
     // console.log({
     //   email: data.get("username"),
@@ -76,7 +76,7 @@ export default function SignInSide() {
             alignItems: "center",
           }}
         >
-           <Typography
+          <Typography
             variant="h6"
             noWrap
             component="h1"
@@ -142,4 +142,4 @@ export default function SignInSide() {
       </Grid>
     </Grid>
   );
-}
+};

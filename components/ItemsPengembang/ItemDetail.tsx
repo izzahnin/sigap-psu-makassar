@@ -6,8 +6,7 @@ interface ItemDetailProps {
   value: string;
 }
 
-export default function ItemDetail() {
-
+export const ItemDetail = () => {
   return (
     <Box
       sx={{
@@ -42,4 +41,4 @@ export default function ItemDetail() {
       </div>
     </Box>
   );
-}
+};

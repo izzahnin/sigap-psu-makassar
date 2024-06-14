@@ -21,7 +21,7 @@ const rows = [
   createData("Surat Pernyataan", ""),
 ];
 
-export default function ItemDokumenCitizen() {
+export const ItemDokumenCitizen = () => {
   // Fungsi untuk membuka PDF di tab baru
   const openPDFInNewTab = () => {
     window.open("/file/pdf.pdf", "_blank");
@@ -75,4 +75,4 @@ export default function ItemDokumenCitizen() {
       </Table>
     </TableContainer>
   );
-}
+};

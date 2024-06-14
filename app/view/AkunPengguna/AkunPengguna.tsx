@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export default function AkunPengguna() {
-  return (
-    <div>AkunPengguna</div>
-  )
-}
+export const AkunPengguna = () => {
+  return <div>AkunPengguna</div>;
+};

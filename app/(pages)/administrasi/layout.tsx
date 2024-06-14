@@ -1,6 +1,6 @@
 "use client";
 import "@/app/styles/globals.css";
-import ResponsiveDrawer from "@/components/Drawer/drawer2";
+import { ResponsiveDrawer } from "@/components/Drawer/drawer2";
 import { AppBar, Drawer } from "@mui/material";
 
 // import { AuthUserProvider, useAuth } from "@/firebase/auth/AuthUserProvider";
@@ -19,7 +19,8 @@ export default function UserLayout({
   return (
     // <AuthUserProvider>
     <section>
-      <ResponsiveDrawer role="user">{children}</ResponsiveDrawer>
+      <ResponsiveDrawer role="admin">{children}</ResponsiveDrawer>
+      {/* <ResponsiveDrawer role="user">{children}</ResponsiveDrawer> */}
     </section>
     // {/* </AuthUserProvider> */}
   );

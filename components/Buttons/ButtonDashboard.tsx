@@ -6,7 +6,7 @@ interface ButtonDashboardProps {
   href: string;
 }
 
-export default function ButtonDashboard(props: ButtonDashboardProps) {
+export const ButtonDashboard: React.FC<ButtonDashboardProps> = (props) => {
   const { title, href } = props;
   return (
     <button className="w-40 text-wrap rounded-md bg-white  p-2 text-left uppercase text-black">

@@ -3,14 +3,14 @@ import Image from "next/image";
 import { Box, Card, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import "@/app/styles/globals.css";
-import Navbar from "@/components/Navbar/Navbar";
-import ButtonDashboard from "@/components/Buttons/ButtonDashboard";
+import { Navbar } from "@/components/Navbar/Navbar";
+import { ButtonDashboard } from "@/components/Buttons/ButtonDashboard";
 import CardDashboard from "@/components/Cards/CardDashboard";
-import CardJumlah from "@/components/Cards/CardJumlah";
+import { CardJumlah } from "@/components/Cards/CardJumlah";
 import CardVideo from "@/components/Cards/CardVideo";
-import CardDukungan from "@/components/Cards/CardDukungan";
+import { CardDukungan } from "@/components/Cards/CardDukungan";
 
-export default function LandingPage() {
+export const LandingPage = () => {
   return (
     <Grid
       container
@@ -61,6 +61,9 @@ export default function LandingPage() {
           <div className="text-md h-2 w-1/2 bg-[#edcd1f]"></div>
         </div>
         <section className="flex gap-8">
+          {/* //! CardDashboard component buat run build error  
+          //* Tidak ada error di log hanya saat run build
+          */}
           <CardDashboard
             title="DATA GEO SPASIAL PSU PERUMAHAN"
             description="Data Prasarana Sarana dan Utilitas (PSU) Perumahan yang telah diserahkan ke Pemerintah Kota disajikan dalam webgis"
@@ -157,6 +160,9 @@ export default function LandingPage() {
           <div className="text-md h-2 w-32 bg-[#edcd1f]"></div>
         </div>
         <section className="flex gap-6">
+          {/* //! CardVideocomponent buat run build error  
+          //* Tidak ada error di log hanya saat run build
+          */}
           <CardVideo source="juMRBpfU86c?si=kFOC0AdHiYr1L6bB" />
           <CardVideo source="lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" />
         </section>
@@ -236,4 +242,4 @@ export default function LandingPage() {
       </Box>
     </Grid>
   );
-}
+};

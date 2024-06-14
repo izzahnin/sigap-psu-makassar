@@ -2,7 +2,7 @@ import { Modal, Box, Typography, Button } from "@mui/material";
 import React, { useState } from "react";
 import style from "styled-jsx/style";
 
-export default function ModalSuccess() {
+export const ModalSuccess = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -26,4 +26,4 @@ export default function ModalSuccess() {
       </Modal>
     </div>
   );
-}
+};

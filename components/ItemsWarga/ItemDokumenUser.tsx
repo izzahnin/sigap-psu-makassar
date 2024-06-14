@@ -36,7 +36,7 @@ const rows = [
   createData("Surat Pernyataan", ""),
 ];
 
-export default function ItemDokumenUserCitizen() {
+export const ItemDokumenUserCitizen = () => {
   const [submitted, setSubmitted] = React.useState(false);
   const [disabledInputs, setDisabledInputs] = React.useState(false);
   const [fileNames, setFileNames] = React.useState(Array(rows.length).fill(""));
@@ -189,4 +189,4 @@ export default function ItemDokumenUserCitizen() {
       </Dialog>
     </React.Fragment>
   );
-}
+};

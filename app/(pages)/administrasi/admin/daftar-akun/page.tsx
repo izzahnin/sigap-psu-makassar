@@ -1,5 +1,5 @@
-import DaftarAkun from '@/app/view/DaftarAkun/DaftarAkun'
-import React from 'react'
+import { DaftarAkun } from "@/app/view/DaftarAkun/DaftarAkun";
+import React from "react";
 
 export default function DaftarAkunPage() {
   return (

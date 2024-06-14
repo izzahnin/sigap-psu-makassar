@@ -39,7 +39,7 @@ interface Props {
   role: string;
 }
 
-export default function ResponsiveDrawer(props: Props) {
+export const ResponsiveDrawer: React.FC<Props> = (props) => {
   const { window, children, role } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);

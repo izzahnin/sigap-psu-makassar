@@ -5,7 +5,7 @@ interface TitleTableProps {
   title: string;
 }
 
-export default function TitleTable(props: TitleTableProps) {
+export const TitleTable: React.FC<TitleTableProps> = (props) => {
   const { title } = props;
 
   return (

@@ -6,7 +6,7 @@ interface CardDukunganProps {
   alt: string;
   width: number;
 }
-export default function CardDukungan(props: CardDukunganProps) {
+export const CardDukungan: React.FC<CardDukunganProps> = (props) =>{
   const { src, alt, width } = props;
   return (
     <div className='h-auto'>

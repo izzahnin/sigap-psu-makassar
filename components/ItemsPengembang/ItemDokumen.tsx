@@ -47,7 +47,7 @@ const rows = [
   ),
 ];
 
-export default function ItemDokumen() {
+export const ItemDokumen = () => {
   // Fungsi untuk membuka PDF di tab baru
   const openPDFInNewTab = () => {
     window.open("/file/pdf.pdf", "_blank");
@@ -101,4 +101,4 @@ export default function ItemDokumen() {
       </Table>
     </TableContainer>
   );
-}
+};

@@ -33,7 +33,7 @@ function Copyright(props: any) {
   );
 }
 
-export default function SignUpSide() {
+export const SignUpSide = () => {
   const router = useRouter();
   // const auth = useAuth();
   const [residenceName, setResidenceName] = useState("");
@@ -144,7 +144,7 @@ export default function SignUpSide() {
 
               <Stack spacing={1}>
                 <Typography variant="body1">
-                  Masukkan Foto KTP Pengembang:
+                  Masukkan Foto KTP Pengaju:
                 </Typography>
                 <input
                   type="file"
@@ -154,7 +154,7 @@ export default function SignUpSide() {
                   onChange={handleChange}
                 />
                 <Typography variant="caption">
-                  *Foto KTP hanya digunakan untuk verifikasi akun pengembang
+                  *Foto KTP hanya digunakan untuk verifikasi akun pengaju
                 </Typography>
                 <Typography variant="caption">
                   *Mohon menunggu balasan verifikasi 1-3 hari kerja via WhatsApp
@@ -183,4 +183,4 @@ export default function SignUpSide() {
       </Grid>
     </Grid>
   );
-}
+};

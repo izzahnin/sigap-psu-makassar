@@ -20,7 +20,7 @@ const pages = [
   "Kontak",
 ];
 
-function Navbar() {
+export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
@@ -154,4 +154,3 @@ function Navbar() {
     </AppBar>
   );
 }
-export default Navbar;

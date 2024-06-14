@@ -5,15 +5,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Link } from "@mui/material";
 
-interface ActionAreaCardProps {
+interface CardDashboardProps {
   image: string;
   title: string;
   description: string;
   href?: string;
 }
 
-export default function ActionAreaCard(props: ActionAreaCardProps) {
-  const { image, title, description, href } = props;
+const CardDashboard: React.FC<CardDashboardProps> = ({
+  image,
+  title,
+  description,
+  href,
+}) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <Link
@@ -37,4 +41,6 @@ export default function ActionAreaCard(props: ActionAreaCardProps) {
       </Link>
     </Card>
   );
-}
+};
+
+export default CardDashboard;

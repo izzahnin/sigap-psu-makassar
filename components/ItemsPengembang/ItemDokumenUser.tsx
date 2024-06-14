@@ -54,7 +54,7 @@ const rows = [
   createData("Bukti pembayaran uang kompensasi lahan kuburan/pemakaman", ""),
 ];
 
-export default function ItemDokumenUser() {
+export const ItemDokumenUser = () => {
   const [submitted, setSubmitted] = React.useState(false);
   const [disabledInputs, setDisabledInputs] = React.useState(false);
   const [fileNames, setFileNames] = React.useState(Array(rows.length).fill(""));
@@ -81,9 +81,8 @@ export default function ItemDokumenUser() {
       (row) =>
         row.required &&
         ((row.file && !fileNames[row.title as keyof typeof fileNames]) ||
-          (!row.file && !row.title))
+          (!row.file && !row.title)),
     );
-    
 
     if (missingItems.length > 0) {
       // Display error message
@@ -208,4 +207,4 @@ export default function ItemDokumenUser() {
       </Dialog>
     </React.Fragment>
   );
-}
+};
