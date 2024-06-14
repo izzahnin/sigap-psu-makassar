@@ -54,6 +54,8 @@ export const DaftarAkun = () => {
   );
 
   return (
+    //* tambahkan input untuk menentukan apakah user yang dibuat adalah citizen atau developer
+     
     <Paper>
       <TitleTable title="Daftar Dokumen " />
       <form action="" className="flex flex-col">
