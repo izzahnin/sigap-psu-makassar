@@ -7,8 +7,11 @@ import getUserSignUpList from "@/app/firebase/admin/getUserSignUpList";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
+import { ConfirmDialog } from "@/components/ConfirmDialog/ConfirmDialog";
 
-// Tentukan antarmuka untuk struktur data
+
+//TODO: @FrhnSpwli @mfshobur sign up user tambahkan input Nama Pengaju(nama pengembang/nama warga)
+
 export interface UserSignUp {
   id: string;
   username: string;
@@ -19,6 +22,8 @@ export interface UserSignUp {
 
 export const DaftarPengajuan = () => {
   const [userSignUpList, setUserSignUpList] = useState<UserSignUp[]>([]);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false); // State untuk mengontrol dialog konfirmasi
+  const [deleteId, setDeleteId] = useState<string>(""); // State untuk menyimpan id yang akan dihapus
 
   useEffect(() => {
     async function fetchData() {
@@ -36,10 +41,35 @@ export const DaftarPengajuan = () => {
     try {
       await deleteDoc(doc(db, "account_request", id));
       // Update state after deletion
-      setUserSignUpList((prevList) => prevList.filter((item) => item.id !== id));
+      setUserSignUpList((prevList) =>
+        prevList.filter((item) => item.id !== id),
+      );
     } catch (error) {
       console.error("Error deleting document:", error);
     }
+  };
+
+  const handleDeleteClick = (id: string) => {
+    // Menampilkan dialog konfirmasi
+    setConfirmDialogOpen(true);
+    setDeleteId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    // Menutup dialog konfirmasi
+    setConfirmDialogOpen(false);
+    // Melakukan penghapusan
+    if (deleteId) {
+      await handleDelete(deleteId);
+    }
+    // Reset deleteId
+    setDeleteId("");
+  };
+
+  const handleCancelDelete = () => {
+    // Menutup dialog konfirmasi dan reset deleteId
+    setConfirmDialogOpen(false);
+    setDeleteId("");
   };
 
   const COLUMNS: MRT_ColumnDef<UserSignUp>[] = useMemo(
@@ -53,10 +83,18 @@ export const DaftarPengajuan = () => {
         header: "Perumahan",
       },
       {
+        accessorKey: "phoneNumber",
+        header: "Nomor Telepon",
+      },
+      {
         accessorKey: "id_card",
         header: "File",
         Cell: ({ cell }) => (
-          <a href={cell.getValue<string>()} target="_blank" rel="noopener noreferrer">
+          <a
+            href={cell.getValue<string>()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Lihat KTP
           </a>
         ),
@@ -70,14 +108,14 @@ export const DaftarPengajuan = () => {
             variant="contained"
             color="error"
             size="small"
-            onClick={() => handleDelete(row.original.id)}
+            onClick={() => handleDeleteClick(row.original.id)} // Menggunakan handleDeleteClick untuk menampilkan dialog konfirmasi
           >
             Hapus
           </Button>
         ),
       },
     ],
-    []
+    [],
   );
 
   return (
@@ -87,6 +125,13 @@ export const DaftarPengajuan = () => {
         data={userSignUpList}
         columns={COLUMNS}
         columnPinning={["mrt-row-numbers"]}
+      />
+
+      {/* Memasukkan ConfirmDialog */}
+      <ConfirmDialog
+        open={confirmDialogOpen}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
       />
     </Paper>
   );

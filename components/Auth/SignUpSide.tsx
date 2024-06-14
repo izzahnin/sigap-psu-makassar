@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,7 +9,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { ConfirmationDialog } from "@/components/ConfirmationSignup/ConfirmationSignup";
 import { useState } from "react";
 import { Stack } from "@mui/material";
 import signUp from "@/app/firebase/user/signUp";
@@ -38,6 +37,7 @@ export const SignUpSide = () => {
   const [residenceName, setResidenceName] = useState("");
   const [username, setUsername] = useState("");
   const [idCard, setIdCard] = useState<File | null>(null);
+  const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false); // State untuk mengontrol dialog konfirmasi
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,7 +50,8 @@ export const SignUpSide = () => {
     try {
       if (residenceName && username && idCard) {
         await signUp({ residenceName, username, idCard });
-        router.push("/");
+        // Menampilkan dialog konfirmasi
+        setConfirmationDialogOpen(true);
       } else {
         console.error("Please fill in all the required fields.");
       }
@@ -62,6 +63,13 @@ export const SignUpSide = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     setIdCard(file);
+  };
+
+  const handleCloseConfirmationDialog = () => {
+    // Menutup dialog konfirmasi
+    setConfirmationDialogOpen(false);
+    // Redirect ke halaman utama setelah menutup dialog
+    router.push("/");
   };
 
   return (
@@ -179,6 +187,12 @@ export const SignUpSide = () => {
           </Box>
         </Box>
       </Grid>
+
+      {/* Menampilkan ConfirmationDialog */}
+      <ConfirmationDialog
+        open={confirmationDialogOpen}
+        onClose={handleCloseConfirmationDialog}
+      />
     </Grid>
   );
-}
+};
