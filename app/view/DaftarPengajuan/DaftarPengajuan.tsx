@@ -1,76 +1,90 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { MRT_ColumnDef } from "material-react-table";
-import { useMemo, useState } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
-import { Button, Paper, Typography, TextField } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import getUserSignUpList from "@/app/firebase/admin/getUserSignUpList";
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "@/app/firebase/config";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
 
+// Tentukan antarmuka untuk struktur data
+interface UserSignUp {
+  id: string;
+  username: string;
+  residence_name: string;
+  id_card: string;
+}
+
 export const DaftarPengajuan = () => {
-  const [userSignUpList, setUserSignUpListp] = useState([]);
+  const [userSignUpList, setUserSignUpList] = useState<UserSignUp[]>([]);
 
-  const MOCK_DATA = [
-    {
-      id: 1,
-      perumahan: "Perumahan 1",
-      nama: "Budi",
-      file: "file.pdf",
-    },
-    {
-      id: 2,
-      perumahan: "Perumahan 2",
-      nama: "Budi",
-      password: "123456",
-      file: "file.pdf",
-    },
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getUserSignUpList();
+        setUserSignUpList(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
-  const MOCK_COLUMNS: MRT_ColumnDef<any>[] = useMemo(
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "account_request", id));
+      // Update state after deletion
+      setUserSignUpList((prevList) => prevList.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  };
+
+  const COLUMNS: MRT_ColumnDef<UserSignUp>[] = useMemo(
     () => [
       {
-        accessorKey: "nama",
+        accessorKey: "username",
         header: "Nama",
       },
       {
-        accessorKey: "perumahan",
+        accessorKey: "residence_name",
         header: "Perumahan",
       },
       {
-        accessorKey: "file",
+        accessorKey: "id_card",
         header: "File",
+        Cell: ({ cell }) => (
+          <a href={cell.getValue<string>()} target="_blank" rel="noopener noreferrer">
+            Lihat KTP
+          </a>
+        ),
       },
       {
         accessorKey: "action",
         header: "Tindakan",
-        Cell: ({ cell }) => (
-          <Button type="button" variant="contained" color="error" size="small">
+        Cell: ({ row }) => (
+          <Button
+            type="button"
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(row.original.id)}
+          >
             Hapus
           </Button>
         ),
       },
     ],
-    [],
+    []
   );
-
-  // useEffect(() => {
-  //   async function fetchData= () => {
-  //     try {
-  //       const data = await getUserSignUpList();
-  //       setUserSignUpList(data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   return (
     <Paper>
-      <TitleTable title="Daftar Pengajuan " />
+      <TitleTable title="Daftar Pengajuan" />
       <CustomTable
         data={userSignUpList}
-        columns={MOCK_COLUMNS}
+        columns={COLUMNS}
         columnPinning={["mrt-row-numbers"]}
       />
     </Paper>
