@@ -1,67 +1,40 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/app/firebase/config";
 
 export const DaftarDokumen = () => {
-  const MOCK_DATA = [
-    {
-      id: 1,
-      nama_perumahan: "Perumahan 1",
-      nama_pengaju: "PT. A",
-      notelp: "08123456789",
-      lokasi: "Jl. A",
-      kelurahan: "Kel. A",
-      kecamatan: "Kec. A",
-    },
-    {
-      id: 2,
-      nama_perumahan: "Perumahan 2",
-      nama_pengaju: "Bapak B",
-      notelp: "08123456789",
-      lokasi: "Jl. B",
-      kelurahan: "Kel. B",
-      kecamatan: "Kec. B",
-    },
-    {
-      id: 3,
-      nama_perumahan: "Perumahan 3",
-      nama_pengaju: "Bapak C",
-      notelp: "08123456789",
-      lokasi: "Jl. C",
-      kelurahan: "Kel. C",
-      kecamatan: "Kec. C",
-    },
-  ];
+  const [data, setData] = useState<any[]>([]); // State to hold Firestore data
 
-  const MOCK_COLUMNS: MRT_ColumnDef<any>[] = useMemo(
+  const columns: MRT_ColumnDef<any>[] = useMemo(
     () => [
       {
-        accessorKey: "nama_perumahan",
+        accessorKey: "Nama Perumahan",
         header: "Nama Perumahan",
       },
       {
-        accessorFn: (row) => row.nama_pengaju,
-        id: "nama_pengaju",
+        accessorKey: "Nama Warga",
         header: "Nama Pengaju",
       },
       {
-        accessorKey: "notelp",
+        accessorKey: "Alamat/Telepon",
         header: "No. Telp",
       },
       {
-        accessorKey: "lokasi",
+        accessorKey: "Lokasi",
         header: "Lokasi",
       },
       {
-        accessorKey: "kelurahan",
+        accessorKey: "Kelurahan",
         header: "Kelurahan",
       },
       {
-        accessorKey: "kecamatan",
+        accessorKey: "Kecamatan",
         header: "Kecamatan",
       },
       {
@@ -92,12 +65,29 @@ export const DaftarDokumen = () => {
     [],
   );
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "citizenDocuments")); 
+        const fetchedData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setData(fetchedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Paper>
       <TitleTable title="Daftar Dokumen " />
       <CustomTable
-        data={MOCK_DATA}
-        columns={MOCK_COLUMNS}
+        data={data}
+        columns={columns}
         columnPinning={["mrt-row-numbers"]}
       />
     </Paper>

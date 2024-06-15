@@ -48,6 +48,7 @@ export const DaftarAkun = () => {
         nama,
         perumahan,
         password: hashedPassword,
+        role: "user",
       };
 
       const docRef = await addDoc(collection(db, "users"), newAccount);
@@ -107,7 +108,7 @@ export const DaftarAkun = () => {
 
   return (
     <Paper>
-      <TitleTable title="Daftar Dokumen " />
+      <TitleTable title="Daftar Dokumen" />
       <form onSubmit={handleAddAccount} className="flex flex-col">
         <section className="flex flex-col gap-2 p-4 sm:flex-row">
           <TextField

@@ -2,31 +2,26 @@
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../config";
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { UserProps, jsonToUser } from "./user";
-import bcrypt from 'bcryptjs'; // Correctly import bcryptjs
+import bcrypt from "bcryptjs"; // Correctly import bcryptjs
 
 interface LogInProps {
-    username: string;
-    password: string;
+  username: string;
+  password: string;
 }
 
-export default async function logIn(
-    props: LogInProps,
-): Promise<UserProps> {
-    const { username, password } = props;
+export default async function logIn(props: LogInProps): Promise<UserProps> {
+  const { username, password } = props;
 
-    // query user
-    const q = query(
-      collection(db, "users"),
-      where("username", "==", username),
-  );
+  // query user
+  const q = query(collection(db, "users"), where("username", "==", username));
 
   const querySnapshot = await getDocs(q);
 
   if (querySnapshot.empty) {
-      console.error("User not found");
-      throw new Error('Username and/or password is incorrect');
+    console.error("User not found");
+    throw new Error("Username and/or password is incorrect");
   }
 
   // Get user data
@@ -38,10 +33,23 @@ export default async function logIn(
   console.log("Password match result:", samePassword); // Log result of password comparison
 
   if (!samePassword) {
-      console.error("Password mismatch");
-      throw new Error('Username and/or password is incorrect');
+    console.error("Password mismatch");
+    throw new Error("Username and/or password is incorrect");
   }
 
   const user = jsonToUser(userData);
+
+  // Router push based on user role or any other condition
+  if (user.role === "admin") {
+    // router.push("/administrasi/admin");
+    window.location.href = "/administrasi/admin";
+  } else {
+    // router.push("/administrasi");
+    window.location.href = "/administrasi";
+  }
+
+  // keep the user role in localStorage
+  localStorage.setItem("role", user.role);
+
   return user;
 }

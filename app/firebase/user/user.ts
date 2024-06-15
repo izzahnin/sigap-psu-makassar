@@ -1,6 +1,7 @@
 export interface UserProps {
     id: string;
     username: string;
+    role: string;
 }
 
 export function jsonToUser(json: {
@@ -10,6 +11,7 @@ export function jsonToUser(json: {
     return {
         id: json.id || "",
         username: json.username || "",
+        role: json.role || "",
     };
 }
 
