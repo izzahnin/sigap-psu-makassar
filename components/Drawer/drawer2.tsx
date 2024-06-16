@@ -73,7 +73,7 @@ export const ResponsiveDrawer: React.FC<Props> = (props) => {
 
   const handleLogoutConfirm = () => {
     // Handle logout logic here
-    router.push("/"); // For example, redirecting to logout page
+    router.push("/login"); // For example, redirecting to logout page
   };
 
   const handleLogoutCancel = () => {
