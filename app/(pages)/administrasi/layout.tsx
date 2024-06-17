@@ -1,27 +1,28 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import "@/app/styles/globals.css";
 import { ResponsiveDrawer } from "@/components/Drawer/drawer2";
 import { AppBar, Drawer } from "@mui/material";
-
-// import { AuthUserProvider, useAuth } from "@/firebase/auth/AuthUserProvider";
 
 export default function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // const auth = useAuth();
-  // console.log(auth.user.id);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
-  //! if role=admin push /administrasi/admin
-  //! if role=user push /administrasi
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    setUserRole(role);
+  }, []);
 
   return (
-    // <AuthUserProvider>
     <section>
-      <ResponsiveDrawer role="admin">{children}</ResponsiveDrawer>
-      {/* <ResponsiveDrawer role="user">{children}</ResponsiveDrawer> */}
+      {userRole === "admin" ? (
+        <ResponsiveDrawer role="admin">{children}</ResponsiveDrawer>
+      ) : (
+        <ResponsiveDrawer role="user">{children}</ResponsiveDrawer>
+      )}
     </section>
-    // {/* </AuthUserProvider> */}
   );
 }

@@ -16,12 +16,32 @@ import {
   DialogActions,
 } from "@mui/material";
 import { AttachFile, Edit } from "@mui/icons-material";
+import { db, storage } from "@/app/firebase/config"; // Import your Firebase config
+import { collection, addDoc } from "firebase/firestore"; // Firestore methods
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; // Storage methods
 
-function createData(title: string, file: string, required: boolean = false) {
-  return { title, file, required };
+interface RowData {
+  title: string;
+  file: string;
+  required: boolean;
 }
 
-const rows = [
+interface FormDataItem {
+  title: string;
+  value: string;
+  file: File | null;
+  fileUrl?: string;
+}
+
+const createData = (
+  title: string,
+  file: string,
+  required: boolean = false,
+): RowData => {
+  return { title, file, required };
+};
+
+const rows: RowData[] = [
   createData("Nama Perumahan", ""),
   createData("Nama Warga", ""),
   createData("Alamat/Telepon", ""),
@@ -39,50 +59,73 @@ const rows = [
 export const ItemDokumenUserCitizen = () => {
   const [submitted, setSubmitted] = React.useState(false);
   const [disabledInputs, setDisabledInputs] = React.useState(false);
-  const [fileNames, setFileNames] = React.useState(Array(rows.length).fill(""));
+  const [formData, setFormData] = React.useState<FormDataItem[]>(
+    rows.map((row) => ({ title: row.title, value: "", file: null })),
+  );
   const [openConfirmationDialog, setOpenConfirmationDialog] =
     React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  const handleFileChange = (
+  const handleChange = (
     index: number,
-    event: React.ChangeEvent<HTMLInputElement>,
+    value: string | File,
+    type: "value" | "file",
   ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const newFileNames = [...fileNames];
-      newFileNames[index] = file.name;
-      setFileNames(newFileNames);
-      setSubmitted(false); // Reset the submission status if a file is uploaded
-    }
+    const newFormData = [...formData];
+    newFormData[index] = { ...newFormData[index], [type]: value };
+    setFormData(newFormData);
+    setSubmitted(false);
   };
 
   const handleSubmission = () => {
-    // Check if all required fields and files are filled
     const missingItems = rows.filter(
-      (row) =>
-        row.required &&
-        ((row.file && !fileNames[row.title as keyof typeof fileNames]) ||
-          (!row.file && !row.title)),
+      (row, index) =>
+        row.required && !formData[index].value && !formData[index].file,
     );
 
     if (missingItems.length > 0) {
-      // Display error message
       setErrorMessage(
         "Silakan lengkapi semua item yang diperlukan sebelum melakukan submit.",
       );
     } else {
-      // If all required fields and files are filled, proceed with submission
       setOpenConfirmationDialog(true);
     }
   };
 
-  const handleConfirmSubmission = () => {
-    // Handle form submission logic
-    console.log("Form submitted!");
-    setSubmitted(true);
-    setDisabledInputs(true);
-    setOpenConfirmationDialog(false);
+  const handleConfirmSubmission = async () => {
+    try {
+      const fileUploadPromises = formData.map(async (item) => {
+        if (item.file) {
+          const fileRef = ref(
+            storage,
+            `documents/${item.title}/${item.file.name}`,
+          );
+          await uploadBytes(fileRef, item.file);
+          const fileUrl = await getDownloadURL(fileRef);
+          return { ...item, fileUrl };
+        }
+        return item;
+      });
+
+      const fileUrls = await Promise.all(fileUploadPromises);
+
+      const dataToStore = fileUrls.reduce(
+        (acc, item) => {
+          acc[item.title] = item.value || item.fileUrl || "";
+          return acc;
+        },
+        {} as { [key: string]: string },
+      );
+
+      await addDoc(collection(db, "citizenDocuments"), dataToStore);
+
+      setSubmitted(true);
+      setDisabledInputs(true);
+      setOpenConfirmationDialog(false);
+    } catch (error) {
+      console.error("Error submitting form: ", error);
+      setErrorMessage("Terjadi kesalahan saat mengirim formulir.");
+    }
   };
 
   const handleCancelSubmission = () => {
@@ -92,7 +135,7 @@ export const ItemDokumenUserCitizen = () => {
   const handleEdit = () => {
     setSubmitted(false);
     setDisabledInputs(false);
-    setErrorMessage(""); // Clear error message
+    setErrorMessage("");
   };
 
   return (
@@ -121,6 +164,10 @@ export const ItemDokumenUserCitizen = () => {
                       label={row.title}
                       required={row.required}
                       disabled={submitted || disabledInputs}
+                      value={formData[index].value}
+                      onChange={(e) =>
+                        handleChange(index, e.target.value, "value")
+                      }
                     />
                   ) : (
                     <React.Fragment>
@@ -129,7 +176,13 @@ export const ItemDokumenUserCitizen = () => {
                         id={`file-upload-${index}`}
                         type="file"
                         style={{ display: "none" }}
-                        onChange={(event) => handleFileChange(index, event)}
+                        onChange={(event) =>
+                          handleChange(
+                            index,
+                            event.target.files ? event.target.files[0] : "",
+                            "file",
+                          )
+                        }
                         required={row.required}
                         disabled={submitted || disabledInputs}
                       />
@@ -140,7 +193,9 @@ export const ItemDokumenUserCitizen = () => {
                           startIcon={<AttachFile />}
                           disabled={submitted || disabledInputs}
                         >
-                          {fileNames[index] || "Upload PDF"}
+                          {formData[index].file
+                            ? formData[index].file?.name
+                            : "Upload PDF"}
                         </Button>
                       </label>
                     </React.Fragment>

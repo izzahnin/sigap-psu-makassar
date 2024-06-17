@@ -76,15 +76,11 @@ export const DaftarPengajuan = () => {
     () => [
       {
         accessorKey: "username",
-        header: "Nama",
+        header: "Nomor Telepon",
       },
       {
         accessorKey: "residence_name",
         header: "Perumahan",
-      },
-      {
-        accessorKey: "phoneNumber",
-        header: "Nomor Telepon",
       },
       {
         accessorKey: "id_card",
