@@ -20,6 +20,7 @@ export const DaftarAkun = () => {
   const [nama, setNama] = useState("");
   const [perumahan, setPerumahan] = useState("");
   const [password, setPassword] = useState("");
+  const [roleDeveloper, setRoleDeveloper] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,10 +46,11 @@ export const DaftarAkun = () => {
 
       const newAccount = {
         username,
-        nama,
-        perumahan,
+        name: nama,
+        residence: perumahan,
         password: hashedPassword,
-        role: "user",
+        category: roleDeveloper ? "developer" : "citizen",
+        createdAt: Date.now(),
       };
 
       const docRef = await addDoc(collection(db, "users"), newAccount);
@@ -59,6 +61,7 @@ export const DaftarAkun = () => {
       setNama("");
       setPerumahan("");
       setPassword("");
+      setRoleDeveloper(true);
     } catch (error) {
       console.error("Error adding document:", error);
     }
@@ -80,12 +83,16 @@ export const DaftarAkun = () => {
         header: "Username",
       },
       {
-        accessorKey: "nama",
+        accessorKey: "name",
         header: "Nama",
       },
       {
-        accessorKey: "perumahan",
+        accessorKey: "residence",
         header: "Perumahan",
+      },
+      {
+        accessorKey: "category",
+        header: "Jenis Akun",
       },
       {
         accessorKey: "action",
@@ -140,6 +147,31 @@ export const DaftarAkun = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+        </section>
+        {/* add radio button for role */}
+        <section className="flex flex-col gap-4 p-4 sm:flex-row">
+          <section className="flex gap-2">
+            <input
+              type="radio"
+              id="role-developer"
+              name="role"
+              value="developer"
+              checked={roleDeveloper}
+              onChange={() => setRoleDeveloper(true)}
+            />
+            <label htmlFor="role-developer">Developer</label>
+          </section>
+          <section className="flex gap-2">
+            <input
+              type="radio"
+              id="role-citizen"
+              name="role"
+              value="citizen"
+              checked={!roleDeveloper}
+              onChange={() => setRoleDeveloper(false)}
+            />
+            <label htmlFor="role-citizen">Warga</label>
+          </section>
         </section>
         <Button
           type="submit"
