@@ -1,7 +1,10 @@
 export interface UserProps {
     id: string;
     username: string;
-    role: string;
+    name: string;
+    createdAt: number;
+    residence: string;
+    category: string;
 }
 
 export function jsonToUser(json: {
@@ -11,7 +14,10 @@ export function jsonToUser(json: {
     return {
         id: json.id || "",
         username: json.username || "",
-        role: json.role || "",
+        name: json.name || "",
+        createdAt: json.created_at || 0,
+        residence: json.residence || "",
+        category: json.category || "",
     };
 }
 
