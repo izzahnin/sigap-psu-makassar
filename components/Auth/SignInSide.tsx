@@ -36,6 +36,7 @@ function Copyright(props: any) {
 export const SignInSide: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [successLogin, setSuccessLogin] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,6 +48,7 @@ export const SignInSide: React.FC = () => {
       setLoading(true);
       try {
         await logIn({ username, password });
+        setSuccessLogin(true);
         toast.success("Berhasil masuk");
       } catch (error) {
         toast.error((error as Error).message);
@@ -131,7 +133,7 @@ export const SignInSide: React.FC = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                disabled={loading}
+                disabled={loading || successLogin}
               >
                 {loading ? "Loading..." : "MASUK"}
               </Button>
