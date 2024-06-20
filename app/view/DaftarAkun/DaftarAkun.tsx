@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import CustomTable from "@/components/CustomTable/CustomTable";
-import { Button, Paper, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, TextField } from "@mui/material";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
 import { db } from "@/app/firebase/config";
 import bcrypt from "bcryptjs";
@@ -15,6 +15,7 @@ import {
   deleteDoc,
   setDoc,
 } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 export const DaftarAkun = () => {
   const [userAccounts, setUserAccounts] = useState<any[]>([]);
@@ -23,6 +24,10 @@ export const DaftarAkun = () => {
   const [perumahan, setPerumahan] = useState("");
   const [password, setPassword] = useState("");
   const [roleDeveloper, setRoleDeveloper] = useState(true);
+  const [openConfirmationDialog, setOpenConfirmationDialog] =
+    useState(false);
+  const [selectedDeleteId, setSelectedDeleteId] = useState("");
+  const [loadingDeleteUser, setLoadingDeleteUser] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,12 +78,28 @@ export const DaftarAkun = () => {
   };
 
   const handleDelete = async (id: string) => {
+    setSelectedDeleteId(id);
+    setOpenConfirmationDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
     try {
-      await deleteDoc(doc(db, "users", id));
-      setUserAccounts((prevList) => prevList.filter((item) => item.id !== id));
+      setLoadingDeleteUser(true);
+      await deleteDoc(doc(db, "users", selectedDeleteId));
+      setUserAccounts((prevList) => prevList.filter((item) => item.id !== selectedDeleteId));
+      toast.success("Berhasil menghapus akun");
     } catch (error) {
-      console.error("Error deleting document:", error);
+      toast.error("Gagal menghapus akun");
+    } finally {
+      setOpenConfirmationDialog(false);
+      setSelectedDeleteId("");
+      setLoadingDeleteUser(false);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setOpenConfirmationDialog(false);
+    setSelectedDeleteId("");
   };
 
   const COLUMNS: MRT_ColumnDef<any>[] = useMemo(
@@ -188,6 +209,18 @@ export const DaftarAkun = () => {
         </Button>
       </form>
       <CustomTable data={userAccounts} columns={COLUMNS} />
+      <Dialog open={openConfirmationDialog} onClose={handleCancelDelete}>
+        <DialogTitle>Submit Form PSU</DialogTitle>
+        <DialogContent>
+          <p>Apakah anda yakin ingin menghapus akun ini?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete}>Batal</Button>
+          <Button onClick={handleConfirmDelete} disabled={loadingDeleteUser}>
+            {loadingDeleteUser ? "Menghapus..." : "Hapus"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 };
