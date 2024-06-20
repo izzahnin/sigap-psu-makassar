@@ -3,13 +3,17 @@ import React, { useEffect, useState } from "react";
 import { MRT_ColumnDef } from "material-react-table";
 import { useMemo } from "react";
 import CustomTable from "@/components/CustomTable/CustomTable";
-import { Button, Paper } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper } from "@mui/material";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "@/app/firebase/config";
+import { toast } from "react-toastify";
 
 export const DaftarDokumen = () => {
-  const [data, setData] = useState<any[]>([]); // State to hold Firestore data
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
 
   const columns: MRT_ColumnDef<any>[] = useMemo(
     () => [
@@ -55,6 +59,7 @@ export const DaftarDokumen = () => {
               variant="contained"
               color="error"
               size="small"
+              onClick={() => handleDelete(cell.row.original.id)}
             >
               Hapus
             </Button>
@@ -65,10 +70,37 @@ export const DaftarDokumen = () => {
     [],
   );
 
+  const handleDelete = (id: string) => {
+    setOpenConfirmationDialog(true);
+    setDeleteId(id);
+  }
+
+  const handleConfirmDelete = async () => {
+    try {
+      setLoading(true);
+      await deleteDoc(doc(db, "citizenDocuments", deleteId));
+      // Update state after deletion
+      setData((prevData) => prevData.filter((item) => item.id !== deleteId));
+      toast.success("Dokumen dihapus");
+    } catch (error) {
+      console.error("Error deleting document:", error);
+      toast.error("Gagal menghapus dokumen");
+    } finally {
+      setOpenConfirmationDialog(false);
+      setDeleteId("");
+      setLoading(false);
+    }
+  }
+
+  const handleCancelDelete = () => {
+    setOpenConfirmationDialog(false);
+    setDeleteId("");
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "citizenDocuments")); 
+        const querySnapshot = await getDocs(collection(db, "citizenDocuments"));
         const fetchedData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -90,6 +122,18 @@ export const DaftarDokumen = () => {
         columns={columns}
         columnPinning={["mrt-row-numbers"]}
       />
+      <Dialog open={openConfirmationDialog} onClose={handleCancelDelete}>
+        <DialogTitle>Submit Form PSU</DialogTitle>
+        <DialogContent>
+          <p>Apakah anda yakin ingin menghapus akun ini?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete}>Batal</Button>
+          <Button onClick={handleConfirmDelete} disabled={loading}>
+            {loading ? "Menghapus..." : "Hapus"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 };

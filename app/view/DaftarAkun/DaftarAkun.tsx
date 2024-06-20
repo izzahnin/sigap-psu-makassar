@@ -141,7 +141,7 @@ export const DaftarAkun = () => {
 
   return (
     <Paper>
-      <TitleTable title="Daftar Dokumen" />
+      <TitleTable title="Daftar Akun" />
       <form onSubmit={handleAddAccount} className="flex flex-col">
         <section className="flex flex-col gap-2 p-4 sm:flex-row">
           <TextField
