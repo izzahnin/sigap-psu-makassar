@@ -10,7 +10,8 @@ export const TitleTable: React.FC<TitleTableProps> = (props) => {
 
   return (
     <Box sx={{ 
-      backgroundColor: "#2581D8",
+      backgroundColor: "#1e2d3b",
+      // backgroundColor: "#2581D8",
       display: "flex",
       alignItems: "center",
       borderRadius: "4px 4px 0 0",

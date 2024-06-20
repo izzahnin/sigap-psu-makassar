@@ -38,6 +38,7 @@ export const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+    console.log(id);
     handleCloseNavMenu();
   };
 

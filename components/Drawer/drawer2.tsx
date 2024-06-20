@@ -153,7 +153,10 @@ export const ResponsiveDrawer: React.FC<Props> = (props) => {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "#1e2d3b",
+        }}
       >
         <Toolbar
           sx={{
@@ -278,4 +281,4 @@ export const ResponsiveDrawer: React.FC<Props> = (props) => {
       </Dialog>
     </Box>
   );
-}
+};
