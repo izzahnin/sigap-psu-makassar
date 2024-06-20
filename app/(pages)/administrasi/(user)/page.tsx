@@ -6,10 +6,18 @@ import { PengajuanDokumen } from "@/app/view/PengajuanDokumen/PengajuanDokumen";
 export default function Administrasi() {
   //* Pengajuan Dokumen menentukan ketika user adalah citizen maka menampilkan Form untuk Citizen
   //* jika developer makan menampilkan Form untuk Developer
-  var userCategory: string | null = "citizen";
+  const [loading, setLoading] = React.useState(true);
+
+  // var userCategory: string | null = "citizen";
+  const [userCategory, setUserCategory] = React.useState<string | null>(null);
+
   useEffect(() => {
-    userCategory = localStorage.getItem('userCategory');
+    setUserCategory(localStorage.getItem('userCategory'));
+    console.log(userCategory);
+    setLoading(false);
   }, []);
+
+
 
   return <PengajuanDokumen userType={userCategory!} />;
 };

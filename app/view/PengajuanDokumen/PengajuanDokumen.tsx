@@ -10,6 +10,7 @@ interface PengajuanDokumenProps {
 
 export const PengajuanDokumen: React.FC<PengajuanDokumenProps> = (props) => {
   const { userType } = props;
+  console.log(userType);
   return (
     <Paper>
       <TitleTable title="Form Pengajuan Penyerahan PSU" />
