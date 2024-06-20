@@ -40,7 +40,7 @@ interface FormDataItem {
 const createData = (
   title: string,
   file: string,
-  required: boolean = false,
+  required: boolean = true,
 ): RowData => {
   return { title, file, required };
 };
@@ -88,47 +88,48 @@ export const ItemDokumenUserCitizen = () => {
           setDocument({ ...docSnap.data() });
           const data = { ...docSnap.data() };
           // change form data based on document data
-          const updatedFormData = await Promise.all(
-            rows.map(async (row, index) => {
-              const title = row.title;
-              // console.log(document[title]);
-              if (index <= 6) {
-                return {
-                  title,
-                  value: data[title] || "",
-                  file: null,
-                };
-              } else {
-                const fileUrl = data[title];
-                if (fileUrl) {
-                  const fileRef = ref(storage, fileUrl);
-                  const fileDownloadUrl = await getDownloadURL(fileRef);
-                  const response = await fetch(fileDownloadUrl);
-                  const blob = await response.blob();
-                  const file = new File([blob], `${title}.pdf`, {
-                    type: "application/pdf",
-                  });
+          if (data != null) {
+
+
+            const updatedFormData = await Promise.all(
+              rows.map(async (row, index) => {
+                const title = row.title;
+                // console.log(document[title]);
+                if (index <= 6) {
+                  return {
+                    title,
+                    value: data[title] || "",
+                    file: null,
+                  };
+                } else {
+                  const fileUrl = data[title];
+                  if (fileUrl) {
+                    const fileRef = ref(storage, fileUrl);
+                    const fileDownloadUrl = await getDownloadURL(fileRef);
+                    const response = await fetch(fileDownloadUrl);
+                    const blob = await response.blob();
+                    const file = new File([blob], `${title}.pdf`, {
+                      type: "application/pdf",
+                    });
+                    return {
+                      title,
+                      value: "",
+                      file,
+                    };
+                  }
                   return {
                     title,
                     value: "",
-                    file,
+                    file: null,
                   };
                 }
-                return {
-                  title,
-                  value: "",
-                  file: null,
-                };
-              }
-            })
-          );
-          if (data !== null) {
-           setDisabledInputs(true);
-           setSubmitted(true);
-          }
-          console.log(updatedFormData);
+              })
+            );
 
-          setFormData(updatedFormData);
+            setDisabledInputs(true);
+            setSubmitted(true);
+            setFormData(updatedFormData);
+          }
         } else {
           console.log("No such document!");
         }
@@ -155,14 +156,31 @@ export const ItemDokumenUserCitizen = () => {
 
   const handleSubmission = () => {
     const missingItems = rows.filter(
-      (row, index) =>
-        row.required && !formData[index].value && !formData[index].file,
+      (row, index) => {
+
+        if (index <= 6) {
+          return row.required &&
+            formData[index].value.length < 1;
+
+        } else {
+          return row.required &&
+            formData[index].file === null
+        }
+
+      }
+      // check if all required values are filled
     );
 
+    // show the value of each rows
+    console.log(rows);
+    console.log(formData[0].value.length == 0);
+    console.log(formData[0].file == null);
+
     if (missingItems.length > 0) {
-      setErrorMessage(
-        "Silakan lengkapi semua item yang diperlukan sebelum melakukan submit.",
-      );
+      // setErrorMessage(
+      //   "Silakan lengkapi semua item yang diperlukan sebelum melakukan submit.",
+      // );
+      toast.error("Silakan lengkapi semua item yang diperlukan sebelum melakukan submit.");
     } else {
       setOpenConfirmationDialog(true);
     }
