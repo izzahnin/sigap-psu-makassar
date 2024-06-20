@@ -14,12 +14,15 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  CircularProgress,
+  Box,
 } from "@mui/material";
-import { uuid } from 'uuidv4';
 import { AttachFile, Edit } from "@mui/icons-material";
 import { db, storage } from "@/app/firebase/config"; // Import your Firebase config
-import { collection, addDoc, doc, setDoc } from "firebase/firestore"; // Firestore methods
+import { collection, addDoc, doc, setDoc, getDoc } from "firebase/firestore"; // Firestore methods
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; // Storage methods
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface RowData {
   title: string;
@@ -58,6 +61,8 @@ const rows: RowData[] = [
 ];
 
 export const ItemDokumenUserCitizen = () => {
+  const [userId, setUserId] = React.useState<string | null>(null);
+  const [userCategory, setUserCategory] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
   const [disabledInputs, setDisabledInputs] = React.useState(false);
   const [formData, setFormData] = React.useState<FormDataItem[]>(
@@ -66,6 +71,76 @@ export const ItemDokumenUserCitizen = () => {
   const [openConfirmationDialog, setOpenConfirmationDialog] =
     React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [loadingFetchDocument, setLoadingFetchDocument] = React.useState(true);
+  const [document, setDocument] = React.useState<any>();
+
+  React.useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const userCategory = localStorage.getItem("userCategory");
+    setUserId(userId);
+    setUserCategory(userCategory);
+    const fetchDocument = async () => {
+      try {
+        const docRef = doc(db, "citizenDocuments", userId!);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setDocument({ ...docSnap.data() });
+          const data = { ...docSnap.data() };
+          // change form data based on document data
+          const updatedFormData = await Promise.all(
+            rows.map(async (row, index) => {
+              const title = row.title;
+              // console.log(document[title]);
+              if (index <= 6) {
+                return {
+                  title,
+                  value: data[title] || "",
+                  file: null,
+                };
+              } else {
+                const fileUrl = data[title];
+                if (fileUrl) {
+                  const fileRef = ref(storage, fileUrl);
+                  const fileDownloadUrl = await getDownloadURL(fileRef);
+                  const response = await fetch(fileDownloadUrl);
+                  const blob = await response.blob();
+                  const file = new File([blob], `${title}.pdf`, {
+                    type: "application/pdf",
+                  });
+                  return {
+                    title,
+                    value: "",
+                    file,
+                  };
+                }
+                return {
+                  title,
+                  value: "",
+                  file: null,
+                };
+              }
+            })
+          );
+          if (data !== null) {
+           setDisabledInputs(true);
+           setSubmitted(true);
+          }
+          console.log(updatedFormData);
+
+          setFormData(updatedFormData);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching document: ", error);
+      } finally {
+        setLoadingFetchDocument(false);
+      }
+    };
+
+    fetchDocument();
+  }, []);
 
   const handleChange = (
     index: number,
@@ -94,6 +169,7 @@ export const ItemDokumenUserCitizen = () => {
   };
 
   const handleConfirmSubmission = async () => {
+    setLoading(true);
     try {
       const fileUploadPromises = formData.map(async (item) => {
         if (item.file) {
@@ -110,9 +186,6 @@ export const ItemDokumenUserCitizen = () => {
 
       const fileUrls = await Promise.all(fileUploadPromises);
 
-      const userId = localStorage.getItem("userId");
-      const userCategory = localStorage.getItem("userCategory");
-
       const dataToStore = fileUrls.reduce(
         (acc, item) => {
           acc[item.title] = item.value || item.fileUrl || "";
@@ -120,20 +193,22 @@ export const ItemDokumenUserCitizen = () => {
         },
         {} as { [key: string]: string },
       );
-      // TODO: GET USER TYPE
-      await setDoc(doc(db, "citizenDocuments", userId!),
-        {
-          ...dataToStore,
-          id: userId!,
-          user_type: userCategory!,
-        },);
+      await setDoc(doc(db, "citizenDocuments", userId!), {
+        ...dataToStore,
+        id: userId!,
+        user_type: userCategory!,
+      });
 
       setSubmitted(true);
       setDisabledInputs(true);
       setOpenConfirmationDialog(false);
+      toast.success("Form successfully submitted!");
     } catch (error) {
       console.error("Error submitting form: ", error);
       setErrorMessage("Terjadi kesalahan saat mengirim formulir.");
+      toast.error("Error submitting form!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -146,6 +221,21 @@ export const ItemDokumenUserCitizen = () => {
     setDisabledInputs(false);
     setErrorMessage("");
   };
+
+  if (loadingFetchDocument) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <React.Fragment>
@@ -238,8 +328,12 @@ export const ItemDokumenUserCitizen = () => {
           <p>Apakah anda yakin ingin submit form ini?</p>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelSubmission}>Batal</Button>
-          <Button onClick={handleConfirmSubmission}>Submit</Button>
+          <Button onClick={handleCancelSubmission} disabled={loading}>
+            Batal
+          </Button>
+          <Button onClick={handleConfirmSubmission} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </Button>
         </DialogActions>
       </Dialog>
       <Dialog open={errorMessage !== ""} onClose={() => setErrorMessage("")}>
@@ -251,6 +345,9 @@ export const ItemDokumenUserCitizen = () => {
           <Button onClick={() => setErrorMessage("")}>OK</Button>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </React.Fragment>
   );
 };
+
+export default ItemDokumenUserCitizen;
