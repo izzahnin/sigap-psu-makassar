@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,7 +11,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import logIn from "@/app/firebase/user/logIn";
 
 function Copyright(props: any) {
@@ -31,23 +33,27 @@ function Copyright(props: any) {
   );
 }
 
-export const SignInSide = () => {
+export const SignInSide: React.FC = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // router.push('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("username") != null && data.get("password")) {
-      logIn({
-        username: data.get("username")!.toString(),
-        password: data.get("password")!.toString(),
-      });
+    const username = data.get("username")?.toString();
+    const password = data.get("password")?.toString();
+
+    if (username && password) {
+      setLoading(true);
+      try {
+        await logIn({ username, password });
+        toast.success("Berhasil masuk");
+      } catch (error) {
+        toast.error((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
     }
-    // console.log({
-    //   email: data.get("username"),
-    //   password: data.get("password"),
-    // });
   };
 
   return (
@@ -97,7 +103,7 @@ export const SignInSide = () => {
             <Box
               component="form"
               noValidate
-              onClick={handleSubmit}
+              onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
               <TextField
@@ -125,8 +131,9 @@ export const SignInSide = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={loading}
               >
-                masuk
+                {loading ? "Loading..." : "MASUK"}
               </Button>
             </Box>
             <Grid container>
@@ -140,6 +147,9 @@ export const SignInSide = () => {
           </Box>
         </Box>
       </Grid>
+      <ToastContainer />
     </Grid>
   );
 };
+
+export default SignInSide;
