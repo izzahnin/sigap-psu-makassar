@@ -49,7 +49,10 @@ export default async function logIn(props: LogInProps): Promise<UserProps> {
   }
 
   // keep the user role in localStorage
+  localStorage.setItem("name", user.name);
+  localStorage.setItem("userId", user.id);
   localStorage.setItem("role", user.role);
+  localStorage.setItem("userCategory", user.category);
 
   return user;
 }

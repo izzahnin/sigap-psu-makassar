@@ -2,11 +2,15 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 
 interface ItemDetailProps {
-  title: string;
-  value: string;
+  // json
+  data: any;
 }
 
-export const ItemDetail = () => {
+export const ItemDetail = (
+  props: ItemDetailProps
+) => {
+  const { data } = props;
+
   return (
     <Box
       sx={{
@@ -32,12 +36,12 @@ export const ItemDetail = () => {
         <Typography variant="body1">:</Typography>
       </div>
       <div className="flex flex-col">
-        <Typography variant="body1">Perumahan A</Typography>
-        <Typography variant="body1">PT. A</Typography>
-        <Typography variant="body1">Jl. A</Typography>
-        <Typography variant="body1">Jl. A</Typography>
-        <Typography variant="body1">A</Typography>
-        <Typography variant="body1">A</Typography>
+        <Typography variant="body1">{data['Nama Perumahan']}</Typography>
+        <Typography variant="body1">{data['Nama Warga']}</Typography>
+        <Typography variant="body1">{data['Alamat/Telepon']}</Typography>
+        <Typography variant="body1">{data['Lokasi']}</Typography>
+        <Typography variant="body1">{data['Kelurahan']}</Typography>
+        <Typography variant="body1">{data['Kecamatan']}</Typography>
       </div>
     </Box>
   );

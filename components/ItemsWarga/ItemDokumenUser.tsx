@@ -15,9 +15,10 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import { uuid } from 'uuidv4';
 import { AttachFile, Edit } from "@mui/icons-material";
 import { db, storage } from "@/app/firebase/config"; // Import your Firebase config
-import { collection, addDoc } from "firebase/firestore"; // Firestore methods
+import { collection, addDoc, doc, setDoc } from "firebase/firestore"; // Firestore methods
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"; // Storage methods
 
 interface RowData {
@@ -109,6 +110,9 @@ export const ItemDokumenUserCitizen = () => {
 
       const fileUrls = await Promise.all(fileUploadPromises);
 
+      const userId = localStorage.getItem("userId");
+      const userCategory = localStorage.getItem("userCategory");
+
       const dataToStore = fileUrls.reduce(
         (acc, item) => {
           acc[item.title] = item.value || item.fileUrl || "";
@@ -116,8 +120,13 @@ export const ItemDokumenUserCitizen = () => {
         },
         {} as { [key: string]: string },
       );
-
-      await addDoc(collection(db, "citizenDocuments"), dataToStore);
+      // TODO: GET USER TYPE
+      await setDoc(doc(db, "citizenDocuments", userId!),
+        {
+          ...dataToStore,
+          id: userId!,
+          user_type: userCategory!,
+        },);
 
       setSubmitted(true);
       setDisabledInputs(true);

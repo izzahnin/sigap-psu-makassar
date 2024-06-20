@@ -47,10 +47,18 @@ const rows = [
   ),
 ];
 
-export const ItemDokumen = () => {
+interface ItemDokumenProps {
+  data: any;
+}
+
+export const ItemDokumen = (
+  props: ItemDokumenProps
+) => {
+  const { data } = props;
+
   // Fungsi untuk membuka PDF di tab baru
-  const openPDFInNewTab = () => {
-    window.open("/file/pdf.pdf", "_blank");
+  const openPDFInNewTab = (title: string) => {
+    window.open(data[title], "_blank");
   };
 
   return (
@@ -90,7 +98,7 @@ export const ItemDokumen = () => {
                       fontWeight: "bold",
                     },
                   }}
-                  onClick={openPDFInNewTab}
+                  onClick={() => openPDFInNewTab(row.title)}
                 >
                   {row.file}
                 </Card>

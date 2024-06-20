@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
@@ -40,12 +40,18 @@ interface Props {
 }
 
 export const ResponsiveDrawer: React.FC<Props> = (props) => {
+  const [userName, setUserName] = useState<string | null>(null);
   const { window, children, role } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const name = localStorage.getItem("name");
+    setUserName(name);
+  }, []);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -120,7 +126,7 @@ export const ResponsiveDrawer: React.FC<Props> = (props) => {
           <ListItem key={appPage.title} disablePadding>
             <ListItemButton href={appPage.href}>
               <ListItemIcon>
-                {index - (2 % 2) !== 0 ? <ManageAccounts /> : <Article/>}
+                {index - (2 % 2) !== 0 ? <ManageAccounts /> : <Article />}
               </ListItemIcon>
               <ListItemText primary={appPage.title} />
             </ListItemButton>
@@ -179,19 +185,22 @@ export const ResponsiveDrawer: React.FC<Props> = (props) => {
             </Typography>
           </Stack>
           <div>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-              <Typography variant="body1" component="h1" sx={{ ml: 1 }}>
-                Admin
-              </Typography>
-            </IconButton>
+            {
+              userName != null
+                ? userName
+                : <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                  <Typography variant="body1" component="h1" sx={{ ml: 1 }}>
+                    Admin
+                  </Typography>
+                </IconButton>}
           </div>
         </Toolbar>
       </AppBar>

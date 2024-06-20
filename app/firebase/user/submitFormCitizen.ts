@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '../config';
 import { updateDoc, doc  } from 'firebase/firestore';
 
-interface SubmitFormProps {
+export interface SubmitFormCitizenProps {
     userId: string;
     namaPerumahan: string;
     namaPengaju: string;
@@ -20,7 +20,7 @@ interface SubmitFormProps {
 }
 
 export default async function submitForm(
-    props: SubmitFormProps,
+    props: SubmitFormCitizenProps,
 ): Promise<any> {
     const {
         userId,

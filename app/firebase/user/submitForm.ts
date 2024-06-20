@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from '../config';
 import { updateDoc, doc  } from 'firebase/firestore';
 
-interface SubmitFormProps {
+export interface SubmitFormProps {
     userId: string;
     namaPerumahan: string;
     namaPengaju: string;
