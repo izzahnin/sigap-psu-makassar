@@ -6,12 +6,14 @@ import { Button, Paper, TextField } from "@mui/material";
 import { TitleTable } from "@/components/TitleTable/TitleTable";
 import { db } from "@/app/firebase/config";
 import bcrypt from "bcryptjs";
+import { uuid } from 'uuidv4';
 import {
   collection,
   addDoc,
   getDocs,
   doc,
   deleteDoc,
+  setDoc,
 } from "firebase/firestore";
 
 export const DaftarAkun = () => {
@@ -43,8 +45,10 @@ export const DaftarAkun = () => {
     try {
       // Hash the password before storing it
       const hashedPassword = await bcrypt.hash(password, 10);
+      const newId = uuid();
 
       const newAccount = {
+        id: newId,
         username,
         name: nama,
         residence: perumahan,
@@ -53,8 +57,9 @@ export const DaftarAkun = () => {
         createdAt: Date.now(),
       };
 
-      const docRef = await addDoc(collection(db, "users"), newAccount);
-      setUserAccounts([...userAccounts, { ...newAccount, id: docRef.id }]);
+
+      const docRef = await setDoc(doc(db, "users", newId), newAccount);
+      setUserAccounts([...userAccounts, { ...newAccount, id: newId }]);
 
       // Reset form
       setUsername("");
