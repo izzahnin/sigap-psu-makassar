@@ -15,7 +15,7 @@ export default function Administrasi() {
     setUserCategory(localStorage.getItem('userCategory'));
     console.log(userCategory);
     setLoading(false);
-  }, []);
+  }, [userCategory]);
 
 
 

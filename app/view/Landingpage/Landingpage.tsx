@@ -64,11 +64,11 @@ export const LandingPage = () => {
           {/* //! CardDashboard component buat run build error  
           //* Tidak ada error di log hanya saat run build
           */}
-          <CardDashboard
+          {/* <CardDashboard
             title="DATA GEO SPASIAL PSU PERUMAHAN"
             description="Data Prasarana Sarana dan Utilitas (PSU) Perumahan yang telah diserahkan ke Pemerintah Kota disajikan dalam webgis"
             image="/images/gis.jpg"
-            href="#GISComingSoon"
+            href="http://datapsumakassar.gis.co.id"
           />
           <CardDashboard
             title="PERNYERAHAN PSU OLEH PENGEMBANG"
@@ -81,7 +81,7 @@ export const LandingPage = () => {
             description="Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan yang Pengembang (Developer) nya Sudah Tidak Beraktivitas sebagai Badan Usaha, sehingga Penyerahannya dimohonkan oleh Warga Perumahan"
             image="/images/qr-warga.jpeg"
             href="/login"
-          />
+          /> */}
         </section>
       </Box>
       <Box
@@ -163,8 +163,8 @@ export const LandingPage = () => {
           {/* //! CardVideocomponent buat run build error  
           //* Tidak ada error di log hanya saat run build
           */}
-          <CardVideo source="juMRBpfU86c?si=kFOC0AdHiYr1L6bB" />
-          <CardVideo source="lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" />
+          {/* <CardVideo source="juMRBpfU86c?si=kFOC0AdHiYr1L6bB" />
+          <CardVideo source="lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" /> */}
         </section>
       </Box>
       <Box
