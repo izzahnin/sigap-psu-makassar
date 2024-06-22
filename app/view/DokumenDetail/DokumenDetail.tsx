@@ -118,7 +118,7 @@ export default function DokumenDetail({
               Kelengkapan Dokumen
             </Typography>
 
-            {document.userType === "developer" ? (
+            {document['user_type'] === "developer" ? (
               <ItemDokumen data={document} />
             ) : (
               <ItemDokumenCitizen data={document} />

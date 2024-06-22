@@ -47,7 +47,7 @@ const createData = (
 
 const rows: RowData[] = [
   createData("Nama Perumahan", ""),
-  createData("Nama Warga", ""),
+  createData("Nama Pengaju", ""),
   createData("Alamat/Telepon", ""),
   createData("Lokasi", ""),
   createData("Kelurahan", ""),

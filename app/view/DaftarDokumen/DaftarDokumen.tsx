@@ -22,7 +22,7 @@ export const DaftarDokumen = () => {
         header: "Nama Perumahan",
       },
       {
-        accessorKey: "Nama Warga",
+        accessorKey: "Nama Pengaju",
         header: "Nama Pengaju",
       },
       {

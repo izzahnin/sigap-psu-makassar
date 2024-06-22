@@ -37,7 +37,7 @@ export const ItemDetail = (
       </div>
       <div className="flex flex-col">
         <Typography variant="body1">{data['Nama Perumahan']}</Typography>
-        <Typography variant="body1">{data['Nama Warga']}</Typography>
+        <Typography variant="body1">{data['Nama Pengaju']}</Typography>
         <Typography variant="body1">{data['Alamat/Telepon']}</Typography>
         <Typography variant="body1">{data['Lokasi']}</Typography>
         <Typography variant="body1">{data['Kelurahan']}</Typography>
