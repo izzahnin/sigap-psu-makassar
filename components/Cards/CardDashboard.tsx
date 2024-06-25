@@ -26,6 +26,7 @@ const CardDashboard: React.FC<CardDashboardProps> = ({
           textDecoration: "none",
           color: "inherit",
         }}
+        target="_blank"
       >
         <CardActionArea>
           <CardMedia component="img" height="140" image={image} alt={title} />

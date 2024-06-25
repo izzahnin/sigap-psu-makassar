@@ -44,6 +44,35 @@ export const LandingPage = () => {
       {/* Sigap PSU MAKASSAR */}
       <Box
         sx={{
+          background: "#f7f7f7",
+          padding: "2rem",
+          color: "#333333",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mt: "50px",
+        }}
+        id="Layanan"
+      >
+        <div className="m-12 flex flex-col items-center gap-2 text-center text-5xl font-semibold tracking-wider ">
+          <h1>Alur Penyerahan PSU Perumahan</h1>
+          <div className="text-md h-2 w-1/2 bg-[#edcd1f]"></div>
+        </div>
+        <section className="flex gap-8">
+          <div>
+            <Image src="/images/1.jpg" width={500} height={500} alt="Alur1" />
+          </div>
+          <div>
+            <Image src="/images/2.jpg" width={500} height={500} alt="Alur2" />
+            <Link href="https://bit.ly/ContohUsulanPSUWarga" className="hover:text-blue-500 text-center">
+              <Typography>https://bit.ly/ContohUsulanPSUWarga</Typography>
+            </Link>
+          </div>
+                </section>
+      </Box>
+      <Box
+        sx={{
           background: "white",
           padding: "2rem",
           color: "#333333",
@@ -140,6 +169,88 @@ export const LandingPage = () => {
           <CardJumlah total={132} title="PSU yang telah Diserahkan" />
           <CardJumlah total={61} title="Capaian Tahun 2023" />
           <CardJumlah total={70} title="Target Tahun 2024" />
+        </section>
+      </Box>
+      <Box
+        id="Dokumentasi"
+        sx={{
+          background: "white",
+          padding: "2rem",
+          color: "#333333",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          py: "50px",
+        }}
+      >
+        <div className="m-12 flex flex-col items-center gap-2 text-center text-5xl font-semibold tracking-wider ">
+          <h1>Regulasi</h1>
+          <div className="text-md h-2 w-32 bg-[#edcd1f]"></div>
+        </div>
+        <section className="flex gap-6">
+          <Card
+            sx={{
+              maxWidth: 345,
+              padding: "1rem",
+              hover: {
+                backgroundColor: "#E0E0E0",
+                fontWeight: "bold",
+              },
+            }}
+          >
+            <Link
+              href="https://drive.google.com/file/d/1q1quR7Du2hYnhxu1Ogeo-_SpN8zeB85m/view?usp=sharing"
+              target="_blank"
+            >
+              <Typography>
+                UNDANG-UNDANG REPUBLIK INDONESIA NOMOR 1 TAHUN 2011 TENTANG
+                PERUMAHAN DAN KAWASAN PERMUKIMAN
+              </Typography>
+            </Link>
+          </Card>
+          <Card
+            sx={{
+              maxWidth: 345,
+              padding: "1rem",
+              hover: {
+                backgroundColor: "#E0E0E0",
+                fontWeight: "bold",
+              },
+            }}
+          >
+            <Link
+              href="https://drive.google.com/file/d/1wljhtsPfzznfEHuKfl0RF7GcIe6DCkci/view?usp=sharing"
+              target="_blank"
+            >
+              <Typography>
+                PERATURAN WALIKOTA MAKASSAR NOMOR 86 TAHUN 2016 TENTANG
+                KEDUDUKAN, SUSUNAN ORGANISASI, TUGAS DAN FUNGSI SERTA TATA KERJA
+                DINAS PERUMAHAN DAN KAWASAN PERMUKIMAN
+              </Typography>
+            </Link>
+          </Card>
+          <Card
+            sx={{
+              maxWidth: 345,
+              padding: "1rem",
+              hover: {
+                backgroundColor: "#E0E0E0",
+                fontWeight: "bold",
+              },
+            }}
+          >
+            <Link
+              href="https://drive.google.com/file/d/1wljhtsPfzznfEHuKfl0RF7GcIe6DCkci/view?usp=sharingg"
+              target="_blank"
+            >
+              <Typography>
+                PERDA KOTA MAKASSAR NOMOR 1 TAHUN 2023 TENTANG PENYEDIAAN,
+                PENYERAHAN DAN PENGELOLAAN PRASARANA, SARANA DAN
+                UTILITAS UMUM PERUMAHAN
+              </Typography>
+            </Link>
+          </Card>
         </section>
       </Box>
       <Box
