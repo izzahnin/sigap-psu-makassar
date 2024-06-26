@@ -1,13 +1,20 @@
 import React from "react";
 import Image from "next/image";
-import { Box, Card, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import "@/app/styles/globals.css";
 import { Navbar } from "@/components/Navbar/Navbar";
 import { ButtonDashboard } from "@/components/Buttons/ButtonDashboard";
-import CardDashboard from "@/components/Cards/CardDashboard";
 import { CardJumlah } from "@/components/Cards/CardJumlah";
-import CardVideo from "@/components/Cards/CardVideo";
 import { CardDukungan } from "@/components/Cards/CardDukungan";
 
 export const LandingPage = () => {
@@ -65,11 +72,14 @@ export const LandingPage = () => {
           </div>
           <div>
             <Image src="/images/2.jpg" width={500} height={500} alt="Alur2" />
-            <Link href="https://bit.ly/ContohUsulanPSUWarga" className="hover:text-blue-500 text-center">
+            <Link
+              href="https://bit.ly/ContohUsulanPSUWarga"
+              className="text-center hover:text-blue-500"
+            >
               <Typography>https://bit.ly/ContohUsulanPSUWarga</Typography>
             </Link>
           </div>
-                </section>
+        </section>
       </Box>
       <Box
         sx={{
@@ -90,39 +100,81 @@ export const LandingPage = () => {
           <div className="text-md h-2 w-1/2 bg-[#edcd1f]"></div>
         </div>
         <section className="flex gap-8">
-          {/* //! CardDashboard component buat run build error  
-          //* Tidak ada error di log hanya saat run build
-          */}
-          {/* <CardDashboard
-            title="DATA GEO SPASIAL PSU PERUMAHAN"
-            description="Data Prasarana Sarana dan Utilitas (PSU) Perumahan yang telah diserahkan ke Pemerintah Kota disajikan dalam webgis"
-            image="/images/gis.jpg"
-            href="http://datapsumakassar.gis.co.id"
-          />
-          <CardDashboard
-            title="PERNYERAHAN PSU OLEH PENGEMBANG"
-            description="Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan yang Pengembang (Developer) nya masih Beraktivitas sebagai badan usaha. Pengembang wajib melakukan penyerahan PSU ke pemerintah."
-            image="/images/qr-developer.jpeg"
-            href="/login"
-          />
-          <CardDashboard
-            title="PENYERAHAN PSU PERUMAHAN OLEH WARGA"
-            description="Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan yang Pengembang (Developer) nya Sudah Tidak Beraktivitas sebagai Badan Usaha, sehingga Penyerahannya dimohonkan oleh Warga Perumahan"
-            image="/images/qr-warga.jpeg"
-            href="/login"
-          /> */}
+          <Card sx={{ maxWidth: 345 }}>
+            <Link href="http://datapsumakassar.gis.co.id" target="_blank">
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="/images/gis.jpg"
+                  alt="gis"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    DATA GEO SPASIAL PSU PERUMAHAN
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Data Prasarana Sarana dan Utilitas (PSU) Perumahan yang
+                    telah diserahkan ke Pemerintah Kota disajikan dalam webgis
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Link>
+          </Card>
+          <Card sx={{ maxWidth: 345 }}>
+            <Link href="/login" target="_blank">
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="/images/qr-developer.jpeg"
+                  alt="ini"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    PERNYERAHAN PSU OLEH PENGEMBANG
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan
+                    yang Pengembang (Developer) nya masih Beraktivitas sebagai
+                    badan usaha. Pengembang wajib melakukan penyerahan PSU ke
+                    pemerintah.
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Link>
+          </Card>
+          <Card sx={{ maxWidth: 345 }}>
+            <Link href="/login" target="_blank">
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="/images/qr-warga.jpeg"
+                  alt="ini"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    PENYERAHAN PSU PERUMAHAN OLEH WARGA
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Penyerahan Prasarana Sarana dan Utilitas (PSU) Perumahan
+                    yang Pengembang (Developer) nya Sudah Tidak Beraktivitas
+                    sebagai Badan Usaha, sehingga Penyerahannya dimohonkan oleh
+                    Warga Perumahan
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Link>
+          </Card>
         </section>
       </Box>
       <Box
         sx={{
           background: "#f7f7f7",
-          // padding: "6rem",
           color: "#333333",
           width: "100%",
           display: "flex",
-          // flexDirection: "column",
-          // alignItems: "center",
-          // mt: "50px",
         }}
         id="Penataan PSU Perumahan"
       >
@@ -276,6 +328,25 @@ export const LandingPage = () => {
           */}
           {/* <CardVideo source="juMRBpfU86c?si=kFOC0AdHiYr1L6bB" />
           <CardVideo source="lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco" /> */}
+
+          <Card sx={{ maxWidth: 345 }}>
+            <CardMedia
+              component="iframe"
+              height="400"
+              src="https://www.youtube.com/embed/lMr-XHUy4pw?si=ccP6fK-Cnf5ukhco"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </Card>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardMedia
+              component="iframe"
+              height="400"
+              src="https://www.youtube.com/embed/juMRBpfU86c?si=kFOC0AdHiYr1L6bB"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </Card>
         </section>
       </Box>
       <Box
