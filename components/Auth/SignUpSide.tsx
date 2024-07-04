@@ -104,7 +104,7 @@ export const SignUpSide = () => {
             component="h1"
             sx={{
               mt: 4,
-              display: { xs: "none", md: "flex" },
+              display: "flex",
               flexDirection: "column",
               fontFamily: "Poppins, sans-serif",
               fontWeight: 700,
@@ -163,7 +163,7 @@ export const SignUpSide = () => {
                   *Foto KTP hanya digunakan untuk verifikasi akun pengembang
                 </Typography>
                 <Typography variant="caption">
-                  *Mohon menunggu balasan verifikasi 1-3 hari kerja via WhatsApp
+                  *Mohon menunggu balasan verifikasi 1x24 jam di hari kerja via WhatsApp
                 </Typography>
               </Stack>
               <Button

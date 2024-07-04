@@ -218,7 +218,7 @@ export const LandingPage = () => {
       >
         <section className="flex gap-8">
           <CardJumlah total={939} title="Izin Perumahan di Kota Makassar" />
-          <CardJumlah total={132} title="PSU yang telah Diserahkan" />
+          <CardJumlah total={152} title="PSU yang telah Diserahkan" />
           <CardJumlah total={61} title="Capaian Tahun 2023" />
           <CardJumlah total={70} title="Target Tahun 2024" />
         </section>

@@ -90,7 +90,7 @@ export const SignInSide: React.FC = () => {
             component="h1"
             sx={{
               mt: 4,
-              display: { xs: "none", md: "flex" },
+              display: "flex",
               flexDirection: "column",
               fontFamily: "Poppins, sans-serif",
               fontWeight: 700,
